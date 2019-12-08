@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name        = "plok"
   spec.version     = Plok::VERSION
   spec.authors     = ['Davy Hellemans', 'Dave Lens']
-  spec.email       = ['davy@blimp.be', 'dave@blimp.be']
+  spec.email       = %w(davy@blimp.be dave@blimp.be)
   spec.homepage    = 'https://plok.blimp.be'
   spec.summary     = 'CMS basics'
   spec.description = 'Some basics used for setting up rails projects'
