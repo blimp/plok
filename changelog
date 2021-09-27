@@ -1,3 +1,8 @@
+0.2.0 - 2021-09-27
+--
+* Add the catch_all#resolve action that's mapped to get '*path'
+
+
 0.1.2 - 2021-09-24
 --
 * Explicitly require the version file.
