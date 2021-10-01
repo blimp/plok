@@ -1,3 +1,8 @@
+0.2.1 - 2021-10-01
+--
+* Fix issue with catch_all#resolve not providing enough parameters.
+
+
 0.2.0 - 2021-09-27
 --
 * Add the catch_all#resolve action that's mapped to get '*path'

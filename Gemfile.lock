@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    plok (0.2.0)
+    plok (0.2.1)
       rails (~> 6.0)
 
 GEM
@@ -82,12 +82,10 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.1)
-    mini_portile2 (2.6.1)
     minitest (5.14.4)
     mysql2 (0.5.2)
     nio4r (2.5.8)
-    nokogiri (1.12.4)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.12.5-arm64-darwin)
       racc (~> 1.4)
     racc (1.5.2)
     rack (2.2.3)
@@ -143,4 +141,4 @@ DEPENDENCIES
   plok!
 
 BUNDLED WITH
-   2.2.21
+   2.2.28
