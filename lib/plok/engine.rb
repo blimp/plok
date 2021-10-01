@@ -1,8 +1,10 @@
 module Plok
   class Engine < ::Rails::Engine
-    # Read more about isolate_namespace here:
     # https://hocnest.com/blog/testing-an-engine-with-rspec/
-    isolate_namespace Plok
+    # https://edgeguides.rubyonrails.org/engines.html#critical-files
+    # I don't think we want this, but I'm keeping it here as a reference
+    # for when shit is leaking where it shouldn't go.
+    #isolate_namespace Plok
 
     config.generators do |g|
       g.test_framework :rspec
