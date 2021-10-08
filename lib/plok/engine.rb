@@ -1,13 +1,18 @@
-require File.join(ENGINE_ROOT, 'app/models/application_record.rb')
-
-Dir.glob('app/models/**/*.rb').each { |file| require File.join(ENGINE_ROOT, file) }
+# Can't use Plok::Engine.root yet at this point.
+engine_root = File.expand_path('../..', __dir__)
+Dir.glob("#{engine_root}/app/models/**/*.rb").each { |file| require file }
 
 module Plok
   class Engine < ::Rails::Engine
     # https://hocnest.com/blog/testing-an-engine-with-rspec/
     # https://edgeguides.rubyonrails.org/engines.html#critical-files
-    # I don't think we want this, but I'm keeping it here as a reference
-    # for when shit is leaking where it shouldn't go.
+    # This makes it so generators, helpers,... always reside in the engine's
+    # namespace. So when a model gets generated, it gets put into
+    # app/models/plok/log.rb.
+    #
+    # As you can see this is off for now, but if you do want it turned on
+    # you can always do "Log = Plok::Log" in an initializer file to ease the
+    # transition.
     #isolate_namespace Plok
 
     config.generators do |g|
