@@ -1,5 +1,5 @@
-require "plok/version"
-require "plok/engine"
+require 'plok/version'
+require 'plok/engine'
 
 module Plok
 end

@@ -1,3 +1,7 @@
+require File.join(ENGINE_ROOT, 'app/models/application_record.rb')
+
+Dir.glob('app/models/**/*.rb').each { |file| require File.join(ENGINE_ROOT, file) }
+
 module Plok
   class Engine < ::Rails::Engine
     # https://hocnest.com/blog/testing-an-engine-with-rspec/
