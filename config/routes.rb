@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
   get 'plok/version' => 'plok/version#show', defaults: { format: 'txt' }
-  get '*path' => 'catch_all#resolve'
+  match '*path' => 'catch_all#resolve', via: :all
 end
