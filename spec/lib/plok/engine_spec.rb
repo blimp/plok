@@ -7,7 +7,7 @@ describe Plok::Engine do
     end
 
     it 'returns true if a class exists' do
-      expect(described_class.class_exists?(Plok::Engine)).to be true
+      expect(described_class.class_exists?('Plok::Engine')).to be true
     end
   end
 
@@ -17,7 +17,7 @@ describe Plok::Engine do
     end
 
     it 'returns true if a module exists' do
-      expect(described_class.module_exists?(Plok)).to be true
+      expect(described_class.module_exists?('Plok')).to be true
     end
   end
 end
