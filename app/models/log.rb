@@ -3,7 +3,10 @@ class Log < ActiveRecord::Base
 
   serialize :data, Hash
 
-  # TODO:
+  # TODO: A file column is currently used in Raamwinkel to link either PDFs or
+  # images to a log message. We'd prefer not use Uploader classes in Plok, so
+  # I'll leave this comment as a reference until assets become available in
+  # Plok.
   #mount_uploader :file, LogFileUploader
 
   default_scope { order('created_at DESC, id DESC') }
@@ -14,15 +17,6 @@ class Log < ActiveRecord::Base
   def self.latest
     Log.first # default_scope sorts in descending order.
   end
-
-  # TODO: This is an unnecessary abstraction for this engine. An alternative
-  # approach is to put any path needed in your application into the data
-  # column.
-  #def loggable_path
-  #return unless class_exists?(loggable.class.to_s.concat('Decorator'))
-  #return unless loggable.decorate.respond_to?(:backend_path)
-  #loggable.decorate.backend_path
-  #end
 
   def some_content_present?
     errors.add(:content, :blank) if file.blank? && content.blank?
