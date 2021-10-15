@@ -19,15 +19,6 @@ module Plok
       g.test_framework :rspec
     end
 
-    # You can call this in your spec/rails_helper.rb file so you can make use
-    # of the spec supports to test concerns.
-    #
-    # You cannot call it in the engine itself, because RSpec won't have the same
-    # context available when tests are ran.
-    def load_spec_supports
-      Dir.glob("#{root}/spec/{factories,support}/**/*.rb").each { |f| require f }
-    end
-
     def class_exists?(class_name)
       klass = Module.const_get(class_name.to_s)
       klass.is_a?(Class)
@@ -41,6 +32,15 @@ module Plok
       module_name.to_s.constantize.is_a?(Module)
     rescue NameError
       return false
+    end
+
+    # You can call this in your spec/rails_helper.rb file so you can make use
+    # of the spec supports to test concerns.
+    #
+    # You cannot call it in the engine itself, because RSpec won't have the same
+    # context available when tests are ran.
+    def load_spec_supports
+      Dir.glob("#{root}/spec/{factories,support}/**/*.rb").each { |f| require f }
     end
   end
 end
