@@ -1,3 +1,10 @@
+0.2.3 - 2021-10-15
+--
+* Added RSpec configuration for the engine.
+* Added Log.
+* Added Plok::Loggable.
+
+
 0.2.2 - 2021-10-04
 --
 * Make sure all unrouted HTTP variants are caught by the catch all route.
