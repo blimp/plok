@@ -1,6 +1,6 @@
 # Can't use Plok::Engine.root yet at this point.
 engine_root = File.expand_path('../..', __dir__)
-Dir.glob("#{engine_root}/app/models/**/*.rb").each { |file| require file }
+Dir.glob("#{engine_root}/app/models/**/*.rb").sort.each { |file| puts file;require file }
 
 module Plok
   class Engine < ::Rails::Engine
@@ -40,7 +40,7 @@ module Plok
     # You cannot call it in the engine itself, because RSpec won't have the same
     # context available when tests are ran.
     def load_spec_supports
-      Dir.glob("#{root}/spec/{factories,support}/**/*.rb").each { |f| require f }
+      Dir.glob("#{root}/spec/{factories,support}/**/*.rb").sort.each { |f| require f }
     end
   end
 end
