@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rails', '~> 6.0'
   spec.add_development_dependency 'mysql2'
   spec.add_development_dependency 'rspec-rails', '~> 5.0'
+  spec.add_development_dependency 'factory_bot_rails', '~> 6.0'
 end
