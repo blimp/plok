@@ -5,10 +5,6 @@ module Plok::Loggable
     has_many :logs, as: :loggable, dependent: :nullify
   end
 
-  def html_identifier
-    'logs-'.concat(self.class.to_s.underscore, '-', id.to_s)
-  end
-
   def log(message, category = nil, data = {})
     data = data.permit!.to_h if data.is_a?(ActionController::Parameters)
 

@@ -10,10 +10,6 @@ shared_examples_for :loggable do
     expect(a.logs.unscoped.last.content).to eq 'foo'
   end
 
-  it '#html_identifier' do
-    expect(subject.html_identifier).to eq "logs-#{subject.class.to_s.underscore}-#{subject.id}"
-  end
-
   it '#respond_to?' do
     expect(subject).to respond_to(:logs, :log)
   end
