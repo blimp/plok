@@ -3,19 +3,6 @@ require 'rails_helper'
 describe Log do
   let(:klass) { described_class.to_s.underscore.to_sym }
 
-  # TODO: See Log
-  xdescribe '#loggable_path' do
-    it 'returns nil by default' do
-      expect(subject.loggable_path).to be nil
-    end
-
-    it 'returns the loggable path, where applicable' do
-      order = create(:order)
-      subject = create('log', loggable: order)
-      expect(subject.loggable_path).to eq "http://localhost:3000/backend/orders/#{order.id}"
-    end
-  end
-
   describe '.latest' do
     it 'returns nothing by default' do
       expect(described_class.latest).to be nil
