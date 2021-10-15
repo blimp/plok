@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_08_130809) do
+ActiveRecord::Schema.define(version: 2021_10_15_141837) do
 
   create_table "logs", charset: "utf8mb4", force: :cascade do |t|
     t.string "category"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2021_10_08_130809) do
     t.string "file"
     t.text "content"
     t.text "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "queued_tasks", charset: "utf8mb4", force: :cascade do |t|
+    t.string "klass"
+    t.text "data"
+    t.boolean "locked"
+    t.datetime "perform_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
