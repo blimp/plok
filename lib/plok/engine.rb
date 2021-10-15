@@ -25,7 +25,7 @@ module Plok
     # You cannot call it in the engine itself, because RSpec won't have the same
     # context available when tests are ran.
     def load_spec_supports
-      Dir.glob("#{root}/spec/support/**/*.rb").each { |f| require f }
+      Dir.glob("#{root}/spec/{factories,support}/**/*.rb").each { |f| require f }
     end
 
     def class_exists?(class_name)
