@@ -23,7 +23,12 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile"]
+  spec.files = Dir[
+    "{app,config,db,lib}/**/*",
+    "spec/{factories,support}/**/*",
+    "MIT-LICENSE",
+    "Rakefile"
+  ]
 
   spec.add_dependency 'rails', '~> 6.0'
   spec.add_development_dependency 'mysql2'
