@@ -1,6 +1,6 @@
 # Can't use Plok::Engine.root yet at this point.
 engine_root = File.expand_path('../..', __dir__)
-Dir.glob("#{engine_root}/app/models/**/*.rb").sort.each { |file| puts file;require file }
+Dir.glob("#{engine_root}/app/models/**/*.rb").sort.each { |file| require file }
 
 module Plok
   class Engine < ::Rails::Engine

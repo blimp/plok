@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    plok (0.2.5)
+    plok (0.2.7)
       rails (~> 6.0)
 
 GEM
