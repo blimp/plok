@@ -1,3 +1,29 @@
+0.2.8 - 2021-11-19
+--
+* Added the QueuedTask#weight column.
+
+
+0.2.7 - 2021-10-22
+--
+* Remove an unnecessary #puts call from the engine class' model preload.
+
+
+0.2.6 - 2021-10-15
+--
+* Fix incompatibilities regarding the order in which files are required.
+
+
+0.2.5 - 2021-10-15
+--
+* Added the QueuedTask model.
+
+
+0.2.4 - 2021-10-15
+--
+* Added Plok::Engine.load_spec_supports to load in missing
+spec/{support,factories}.rb files in projects.
+
+
 0.2.3 - 2021-10-15
 --
 * Added RSpec configuration for the engine.
