@@ -37,6 +37,7 @@ class QueuedTask < ActiveRecord::Base
     task = create!(
       klass: klass.to_s,
       weight: weight,
+      attempts: 0,
       data: data.except(:perform_at)
     )
 
@@ -54,6 +55,10 @@ class QueuedTask < ActiveRecord::Base
     destroy
   end
 
+  def increase_attempts!
+    update_column(:attempts, attempts + 1)
+  end
+
   def process!
     lock!
 
@@ -63,7 +68,10 @@ class QueuedTask < ActiveRecord::Base
     rescue
       raise
     ensure
-      unlock! unless destroyed?
+      if persisted?
+        increase_attempts!
+        unlock!
+      end
     end
   end
 
