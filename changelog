@@ -2,6 +2,7 @@
 --
 * Added the QueuedTask#weight.
 * Added the QueuedTask#attempts.
+* Add a missing index on QueuedTask#locked.
 
 
 0.2.7 - 2021-10-22
