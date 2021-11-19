@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     plok (0.2.8)
+      mysql2 (~> 0.5)
       rails (~> 6.0)
 
 GEM
@@ -90,7 +91,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     minitest (5.14.4)
-    mysql2 (0.5.2)
+    mysql2 (0.5.3)
     nio4r (2.5.8)
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
@@ -163,7 +164,6 @@ PLATFORMS
 
 DEPENDENCIES
   factory_bot_rails (~> 6.0)
-  mysql2
   plok!
   rspec-rails (~> 5.0)
 
