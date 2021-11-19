@@ -14,11 +14,11 @@ class QueuedTask < ActiveRecord::Base
   HIGH_PRIORITY = 10
 
   def lock!
-    update_attribute :locked, true
+    update_attribute(:locked, true)
   end
 
   def unlock!
-    update_attribute :locked, false
+    update_attribute(:locked, false)
   end
 
   def unlocked?

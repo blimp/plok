@@ -162,18 +162,6 @@ describe QueuedTask do
     expect(described_class.count).to eq 0
   end
 
-  it '#process!' do
-    task = create(klass, klass: Object, locked: false)
-    expect { task.process! }.to raise_exception(ArgumentError)
-    expect(task).not_to be_locked
-  end
-
-  it '#respond_to?' do
-    expect(build(klass)).to respond_to(
-      :lock!, :unlock!, :execute!, :dequeue!, :process!
-    )
-  end
-
   describe '#unlocked?' do
     it 'true' do
       subject.locked = false
@@ -226,5 +214,25 @@ describe QueuedTask do
         expect(subject.stuck?).to be true
       end
     end
+
+  end
+
+  describe '#process!' do
+    it 'raises an exception due to klass not having a valid #execute!' do
+      task = create(klass, klass: Object, locked: false)
+      expect { task.process! }.to raise_exception(ArgumentError)
+      expect(task.locked?).to be false
+    end
+
+    it 'raises an exception when a destroyed record wants to process' do
+      subject.destroy
+      expect { subject.process! }.to raise_exception(FrozenError)
+    end
+  end
+
+  it '#respond_to?' do
+    expect(subject).to respond_to(
+      :lock!, :unlock!, :execute!, :dequeue!
+    )
   end
 end
