@@ -10,6 +10,9 @@ class QueuedTask < ActiveRecord::Base
   scope :in_past, -> { where(perform_at: nil).or(where('perform_at <= ?', Time.zone.now)) }
   scope :in_future, -> { where('perform_at > ?', Time.zone.now) }
 
+  DEFAULT_PRIORITY = 0
+  HIGH_PRIORITY = 10
+
   def lock!
     update_attribute :locked, true
   end
@@ -26,16 +29,25 @@ class QueuedTask < ActiveRecord::Base
     klass.to_s.constantize.new(data).execute!
   end
 
-  def self.queue(klass, data)
-    task = create!(klass: klass.to_s, data: data.except(:perform_at))
+  # TODO: Might be good to use named parameters for data and weight here.
+  # Might be able to use the data var to store weight like the perform_at key.
+  #
+  # TODO: Refactor to a separate class.
+  def self.queue(klass, data, weight = DEFAULT_PRIORITY)
+    task = create!(
+      klass: klass.to_s,
+      weight: weight,
+      data: data.except(:perform_at)
+    )
+
     task.update(perform_at: data[:perform_at]) if data[:perform_at].present?
     task
   end
 
-  def self.queue_unless_already_queued(klass, data)
-    task = find_by(klass: klass, data: data)
+  def self.queue_unless_already_queued(klass, data, weight = DEFAULT_PRIORITY)
+    task = find_by(klass: klass, data: data, weight: weight)
     return task if task.present?
-    self.queue(klass, data)
+    self.queue(klass, data, weight)
   end
 
   def dequeue!
