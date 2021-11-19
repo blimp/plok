@@ -1,6 +1,7 @@
 0.2.8 - 2021-11-19
 --
-* Added the QueuedTask#weight column.
+* Added the QueuedTask#weight.
+* Added the QueuedTask#attempts.
 
 
 0.2.7 - 2021-10-22
