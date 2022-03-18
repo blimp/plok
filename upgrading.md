@@ -15,7 +15,6 @@ somewhere before the `RSpec.configure` block.
 
 
 ## From 0.2.2 to 0.2.3
---
 0.2.3 introduced the `Log` model. You'll need to remove `app/models/log.rb` and 
 `spec/factories/logs.rb`.
 
@@ -25,7 +24,6 @@ additions. See `readme.md` on how to do this.
 
 
 ## From 0.1.2 to 0.2.2
---
 This version introduces the `catch_all#resolve` action that's mapped by 
 `get '*path'` in the routes.rb file. If you already have this line, you can omit
 it in favor of the one in Plok. If your project already has this controller 
