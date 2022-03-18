@@ -1,3 +1,9 @@
+0.2.9 - 2022-12-03
+--
+* Added Log#file to avoid a conditional in Log.
+* Added a bounded requirement for the mysql2 gem, and bumped it to 0.5.3.
+
+
 0.2.8 - 2021-11-19
 --
 * Added the QueuedTask#weight.
