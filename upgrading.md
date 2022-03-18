@@ -1,6 +1,6 @@
 # Upgrade guide
 
-## From 0.2.4 to 0.2.8
+## From 0.2.4 to 0.2.9
 0.2.5 introduced the `QueuedTask` model. You'll need to remove 
 `app/models/queued_task.rb` and `spec/factories/queued_tasks.rb`.
 
