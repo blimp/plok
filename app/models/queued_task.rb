@@ -38,7 +38,7 @@ class QueuedTask < ActiveRecord::Base
       klass: klass.to_s,
       weight: weight,
       attempts: 0,
-      data: data.except(:perform_at)
+      data: data&.except(:perform_at)
     )
 
     task.update(perform_at: data[:perform_at]) if data[:perform_at].present?

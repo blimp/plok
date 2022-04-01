@@ -1,4 +1,10 @@
-0.2.9 - 2022-12-03
+0.2.10 - 2022-04-01
+--
+* Added a null coalescing operator to #data in QueuedTask.queue.
+* The above is not a joke.
+
+
+0.2.9 - 2021-12-03
 --
 * Added Log#file to avoid a conditional in Log.
 * Added a bounded requirement for the mysql2 gem, and bumped it to 0.5.3.
