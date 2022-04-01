@@ -1,3 +1,9 @@
+0.2.11 - 2022-04-01
+--
+* Fixed an issue with QueuedTask.queue calling [] on nil
+* The above is also not a joke.
+
+
 0.2.10 - 2022-04-01
 --
 * Added a null coalescing operator to #data in QueuedTask.queue.

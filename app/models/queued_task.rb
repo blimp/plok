@@ -41,7 +41,7 @@ class QueuedTask < ActiveRecord::Base
       data: data&.except(:perform_at)
     )
 
-    task.update(perform_at: data[:perform_at]) if data[:perform_at].present?
+    task.update(perform_at: data[:perform_at]) if data&.dig(:perform_at).present?
     task
   end
 
