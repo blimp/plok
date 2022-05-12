@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_141814) do
+ActiveRecord::Schema.define(version: 2022_05_12_142356) do
 
   create_table "logs", charset: "utf8mb4", force: :cascade do |t|
     t.string "category"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2022_05_12_141814) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["locked"], name: "index_queued_tasks_on_locked"
+    t.index ["weight"], name: "index_queued_tasks_on_weight"
   end
 
 end
