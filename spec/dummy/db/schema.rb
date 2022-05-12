@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_03_103118) do
+ActiveRecord::Schema.define(version: 2022_05_12_141814) do
 
   create_table "logs", charset: "utf8mb4", force: :cascade do |t|
     t.string "category"
@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 2021_12_03_103118) do
     t.text "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["category"], name: "index_logs_on_category"
+    t.index ["loggable_id"], name: "index_logs_on_loggable_id"
+    t.index ["loggable_type"], name: "index_logs_on_loggable_type"
   end
 
   create_table "queued_tasks", charset: "utf8mb4", force: :cascade do |t|
