@@ -14,7 +14,7 @@ class QueuedTask < ActiveRecord::Base
   HIGH_PRIORITY = 10
 
   def lock!
-    update_attribute(:locked, true)
+    Plok::Operations::QueuedTasks::Lock.new(self).execute!
   end
 
   def unlock!
