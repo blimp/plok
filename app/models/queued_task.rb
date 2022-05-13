@@ -18,7 +18,7 @@ class QueuedTask < ActiveRecord::Base
   end
 
   def unlock!
-    update_attribute(:locked, false)
+    Plok::Operations::QueuedTasks::Unlock.new(self).execute!
   end
 
   def unlocked?
