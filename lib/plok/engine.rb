@@ -19,6 +19,9 @@ module Plok
       g.test_framework :rspec
     end
 
+    # Autoload classes from the lib dir
+    config.autoload_paths << File.expand_path('../..', __FILE__)
+
     def class_exists?(class_name)
       klass = Module.const_get(class_name.to_s)
       klass.is_a?(Class)
