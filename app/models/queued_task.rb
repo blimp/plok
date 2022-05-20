@@ -7,8 +7,8 @@ class QueuedTask < ActiveRecord::Base
 
   scope :locked, -> { where(locked: true) }
   scope :unlocked, -> { where('locked = 0 OR locked IS NULL') }
-  scope :in_past, -> { where(perform_at: nil).or(where('perform_at <= ?', Time.zone.now)) }
-  scope :in_future, -> { where('perform_at > ?', Time.zone.now) }
+  scope :past, -> { where('perform_at IS NULL OR perform_at <= ?', Time.zone.now) }
+  scope :future, -> { where('perform_at > ?', Time.zone.now) }
 
   DEFAULT_PRIORITY = 0
   HIGH_PRIORITY = 10

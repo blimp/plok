@@ -31,47 +31,47 @@ describe QueuedTask do
       end
     end
 
-    describe '.in_past' do
+    describe '.past' do
       it 'defaults to an empty list' do
-        expect(described_class.in_past).to eq []
+        expect(described_class.past).to eq []
       end
 
       it 'also returns nothing when QueuedTask#perform_at is blank!' do
         a = create(klass)
         b = create(klass)
-        expect(described_class.in_past).to eq [a, b]
+        expect(described_class.past).to eq [a, b]
       end
 
       it 'returns nothing when all QueuedTask#perform_at is in the past' do
         a = create(klass, perform_at: 1.day.ago)
         b = create(klass, perform_at: 2.days.ago)
-        expect(described_class.in_past).to eq [a, b]
+        expect(described_class.past).to eq [a, b]
       end
 
       it 'returns select records when QueuedTask#perform_at is in the future' do
         a = create(klass, perform_at: 1.day.from_now)
         b = create(klass, perform_at: 2.days.ago)
         c = create(klass, perform_at: 2.days.from_now)
-        expect(described_class.in_past).to eq [b]
+        expect(described_class.past).to eq [b]
       end
     end
 
-    describe '.in_future' do
+    describe '.future' do
       it 'defaults to an empty list' do
-        expect(described_class.in_future).to eq []
+        expect(described_class.future).to eq []
       end
 
       it 'returns nothing when all QueuedTask#perform_at is in the past' do
         create(klass, perform_at: 1.day.ago)
         create(klass, perform_at: 2.days.ago)
-        expect(described_class.in_future).to eq []
+        expect(described_class.future).to eq []
       end
 
       it 'returns select records when QueuedTask#perform_at is in the future' do
         a = create(klass, perform_at: 1.day.from_now)
         b = create(klass, perform_at: 2.days.ago)
         c = create(klass, perform_at: 2.days.from_now)
-        expect(described_class.in_future).to eq [a, c]
+        expect(described_class.future).to eq [a, c]
       end
     end
   end
