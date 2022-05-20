@@ -73,17 +73,6 @@ describe QueuedTask do
     end
   end
 
-  describe '#increase_attempts' do
-    subject { create(klass, attempts: 0) }
-
-    it 'can handle subsequent increments' do
-      expect do
-        subject.increase_attempts!
-        subject.increase_attempts!
-      end.to change(subject, :attempts).by(2)
-    end
-  end
-
   describe '.queue' do
     context 'when adding a new task' do
       setup do
@@ -196,7 +185,7 @@ describe QueuedTask do
 
   it '#respond_to?' do
     expect(subject).to respond_to(
-      :lock!, :unlock!, :execute!, :dequeue!
+      :lock!, :unlock!, :execute!
     )
   end
 end
