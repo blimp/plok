@@ -142,33 +142,26 @@ describe QueuedTask do
 
   describe '#stuck?' do
     context 'true' do
-      it 'task is over an hour old' do
-        subject.locked = false
-        subject.created_at = 31.minutes.ago
+      it 'task is older than 30 minutes' do
+        subject = create(klass, locked: false, created_at: 31.minutes.ago)
         expect(subject.stuck?).to be true
       end
     end
 
     context 'false' do
       it 'task is locked' do
-        subject.locked = true
-        subject.created_at = 31.minutes.ago
+        subject = create(klass, locked: true, created_at: 31.minutes.ago)
         expect(subject.stuck?).to be false
       end
 
       it 'task is less than 1 hour old' do
-        subject.locked = false
-        subject.created_at = 25.minutes.ago
+        subject = create(klass, locked: false, created_at: 25.minutes.ago)
         expect(subject.stuck?).to be false
       end
     end
 
     context 'when perform_at was set' do
-      setup do
-        # Normal true conditions apply
-        subject.locked = false
-        subject.created_at = 31.minutes.ago
-      end
+      subject { create(klass, locked: false, created_at: 31.minutes.ago) }
 
       it 'returns false by default' do
         subject.perform_at = 1.hour.from_now
@@ -180,12 +173,9 @@ describe QueuedTask do
         expect(subject.stuck?).to be true
       end
     end
-
   end
 
   it '#respond_to?' do
-    expect(subject).to respond_to(
-      :lock!, :unlock!, :execute!
-    )
+    expect(subject).to respond_to(:lock!, :unlock!, :execute!)
   end
 end
