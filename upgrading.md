@@ -1,5 +1,17 @@
 # Upgrade guide
 
+## From 0.2.12 to 1.0.0
+The signature for `QueuedTask.queue` has been changed and 
+`QueuedTask.queue_unless_already_queued` has been removed because the general
+`.queue` now always checks if the task is already queued.
+
+The `QueuedTask.in_past` scope has been renamed to `QueuedTask.past` and 
+`QueuedTask.in_future` has been renamed to `QueuedTask.future`.
+
+The `QueuedTask` class is no longer loggable. If you need this feature add it in
+your project.
+
+
 ## From 0.2.4 to 0.2.9
 0.2.5 introduced the `QueuedTask` model. You'll need to remove 
 `app/models/queued_task.rb` and `spec/factories/queued_tasks.rb`.
