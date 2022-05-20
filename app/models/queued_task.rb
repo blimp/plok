@@ -52,11 +52,13 @@ class QueuedTask < ActiveRecord::Base
   end
 
   def stuck?
+    # Locked means it's still being executed
     return false if locked?
 
     # Make sure task is past its perform_at timestamp.
     return perform_at <= 30.minutes.ago if perform_at.present?
 
+    # Created more than 30 minutes ago
     created_at <= 30.minutes.ago
   end
 end
