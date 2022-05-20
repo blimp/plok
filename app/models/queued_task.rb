@@ -23,10 +23,6 @@ class QueuedTask < ActiveRecord::Base
     !locked?
   end
 
-  def execute!
-    klass.to_s.constantize.new(data).execute!
-  end
-
   # TODO: Might be good to use named parameters for data and weight here.
   # Might be able to use the data var to store weight like the perform_at key.
   #
@@ -49,28 +45,10 @@ class QueuedTask < ActiveRecord::Base
     self.queue(klass, data, weight)
   end
 
-  def dequeue!
-    destroy
-  end
-
-  def increase_attempts!
-    update_column(:attempts, attempts + 1)
-  end
-
-  def process!
-    lock!
-
-    begin
-      execute!
-      dequeue!
-    rescue
-      raise
-    ensure
-      if persisted?
-        increase_attempts!
-        unlock!
-      end
-    end
+  def execute!
+    Plok::Operations::QueuedTasks::Process
+      .new(self)
+      .execute!
   end
 
   def stuck?
