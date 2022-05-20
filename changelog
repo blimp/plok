@@ -1,6 +1,7 @@
 1.0.0 - xxxx-xx-xx
 --
 * Add the Module class to use 'takes' initializers in classes.
+* QueuedTask is no longer loggable.
 
 
 0.2.12 - 2022-05-12

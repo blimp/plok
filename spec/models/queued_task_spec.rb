@@ -2,9 +2,6 @@ require 'rails_helper'
 
 describe QueuedTask do
   let(:klass) { described_class.to_s.underscore.to_sym }
-  subject { create(klass) }
-
-  it_behaves_like :loggable
 
   describe 'validations' do
     describe 'presence' do
