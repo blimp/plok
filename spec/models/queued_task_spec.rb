@@ -144,12 +144,6 @@ describe QueuedTask do
     end
   end
 
-  it '#dequeue!' do
-    task = described_class.queue Object, foo: 'bar'
-    task.dequeue!
-    expect(described_class.count).to eq 0
-  end
-
   describe '#unlocked?' do
     it 'true' do
       subject.locked = false
