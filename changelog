@@ -2,6 +2,7 @@
 --
 * Add the Module class to use 'takes' initializers in classes.
 * QueuedTask is no longer loggable.
+* Use low, normal & high priority defaults for the queued task weights.
 
 
 0.2.12 - 2022-05-12

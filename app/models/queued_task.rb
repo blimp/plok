@@ -8,7 +8,8 @@ class QueuedTask < ActiveRecord::Base
   scope :past, -> { where('perform_at IS NULL OR perform_at <= ?', Time.zone.now) }
   scope :future, -> { where('perform_at > ?', Time.zone.now) }
 
-  DEFAULT_PRIORITY = 0
+  LOW_PRIORITY = 0
+  NORMAL_PRIORITY = 5
   HIGH_PRIORITY = 10
 
   def lock!
