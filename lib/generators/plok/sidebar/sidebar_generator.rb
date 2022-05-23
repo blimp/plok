@@ -4,7 +4,7 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   source_root File.expand_path('templates', __dir__)
 
   def install
-    copy_sidebar_files('wrapper', 'menu_item', 'offcanvas_menu')
+    copy_sidebar_files('wrapper', 'menu_items', 'menu_item', 'offcanvas_menu')
     add_imports_to_application_scss
     inject_wrapper_block_into_application_layout
   end
