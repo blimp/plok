@@ -27,13 +27,13 @@ class Plok::SidebarGenerator < Rails::Generators::Base
     gsub_file(
       application_layout_file,
       /<body(.*)>\n/,
-      "<body\\1>\n    <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
+      "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
     )
 
     gsub_file(
       application_layout_file,
-      %Q(\n    <%= yield(:javascripts_early) %>),
-      "    <% end %>\n\n    <%= yield(:javascripts_early) %>"
+      /\n(.*)<%= yield\(:javascripts_early\) %>/,
+      "  <% end %>\n\n\\1<%= yield(:javascripts_early) %>"
     )
   end
 
