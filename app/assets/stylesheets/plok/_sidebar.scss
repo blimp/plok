@@ -25,7 +25,7 @@
       cursor: pointer;
 
       a {
-        color: $color-contrast-light;
+        color: #fff; // $color-contrast-light from the Bootstrap gem.
         display: block;
         font-size: 1rem;
         padding: 10px;
@@ -33,7 +33,7 @@
         text-decoration: none !important;
 
         &:hover {
-          background-color: $secondary;
+          background-color: #6c757d; // $secondary from the Bootstrap gem.
         }
       }
 
