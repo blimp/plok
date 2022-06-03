@@ -2,7 +2,7 @@ Description:
     Explain the generator
 
 Example:
-    bin/rails generate plok/sidebar Thing
+    bin/rails generate plok/sidebar
 
     This will create:
         what/will/it/create

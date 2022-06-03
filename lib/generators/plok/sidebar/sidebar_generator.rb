@@ -13,8 +13,13 @@ class Plok::SidebarGenerator < Rails::Generators::Base
 
   def add_imports_to_application_scss
     if application_scss_file
-      append_to_file application_scss_file, "@import 'plok/sidebar';\n"
-      append_to_file application_scss_file, "@import 'plok/sidebar_compact';\n"
+      unless file_contains?(application_scss_file, /@import 'plok\/sidebar'/)
+        append_to_file application_scss_file, "@import 'plok/sidebar';\n"
+      end
+
+      unless file_contains?(application_scss_file, /@import 'plok\/sidebar_compact'/)
+        append_to_file application_scss_file, "@import 'plok/sidebar_compact';\n"
+      end
     else
       say("WARNING: No suitable application.scss file found.\n")
       say("Please add the following imports to your backend application.scss file:\n\n")
@@ -24,17 +29,21 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   end
 
   def inject_wrapper_block_into_application_layout
-    gsub_file(
-      application_layout_file,
-      /<body(.*)>\n/,
-      "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
-    )
+    unless file_contains?(application_layout_file, /backend\/bs5\/sidebar\/wrapper/)
+      gsub_file(
+        application_layout_file,
+        /<body(.*)>\n/,
+        "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
+      )
+    end
 
-    gsub_file(
-      application_layout_file,
-      /\n(.*)<%= yield\(:javascripts_early\) %>/,
-      "  <% end %>\n\n\\1<%= yield(:javascripts_early) %>"
-    )
+    unless file_contains?(application_layout_file, /yield\(:javascripts_early\)/)
+      gsub_file(
+        application_layout_file,
+        /\n(.*)<%= yield\(:javascripts_early\) %>/,
+        "  <% end %>\n\n\\1<%= yield(:javascripts_early) %>"
+      )
+    end
   end
 
   def app_name
@@ -49,6 +58,10 @@ class Plok::SidebarGenerator < Rails::Generators::Base
 
   def sidebar_partial_path(partial_name)
     "app/views/backend/bs5/sidebar/_#{partial_name}.html.erb"
+  end
+
+  def file_contains?(file, content)
+    File.readlines(file).grep(content).any?
   end
 
   def application_layout_file
