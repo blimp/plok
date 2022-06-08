@@ -21,7 +21,7 @@ class Plok::SidebarGenerator < Rails::Generators::Base
         append_to_file application_scss_file, "@import 'plok/sidebar_compact';\n"
       end
     else
-      say("WARNING: No suitable application.scss file found.\n")
+      say("\nWARNING: No suitable application.scss file found.\n")
       say("Please add the following imports to your backend application.scss file:\n\n")
       say("@import 'plok/sidebar';\n")
       say("@import 'plok/sidebar_compact';\n")
@@ -29,21 +29,31 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   end
 
   def inject_wrapper_block_into_application_layout
-    unless file_contains?(application_layout_file, /backend\/bs5\/sidebar\/wrapper/)
-      gsub_file(
-        application_layout_file,
-        /<body(.*)>\n/,
-        "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
-      )
+    # The sidebar wrapper already exists, so stop here.
+    return if file_contains?(application_layout_file, /sidebar\/wrapper/)
+
+    # The wrapper is missing, but we *need* a suitable spot for a closing tag.
+    unless file_contains?(application_layout_file, /yield\(:javascripts_early\)/)
+      say("\nWARNING: The generator could not inject the sidebar wrapper.\n")
+      say("You will have to wrap your backend application markup in this block:\n\n")
+      say("# #{application_layout_file}\n")
+      say("<%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n")
+      say("  # ...your backend application markup here...\n")
+      say("<% end %>\n")
+      return
     end
 
-    unless file_contains?(application_layout_file, /yield\(:javascripts_early\)/)
-      gsub_file(
-        application_layout_file,
-        /\n(.*)<%= yield\(:javascripts_early\) %>/,
-        "  <% end %>\n\n\\1<%= yield(:javascripts_early) %>"
-      )
-    end
+    gsub_file(
+      application_layout_file,
+      /<body(.*)>\n/,
+      "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
+    )
+
+    gsub_file(
+      application_layout_file,
+      /\n(.*)<%= yield\(:javascripts_early\) %>/,
+      "  <% end %>\n\n\\1<%= yield(:javascripts_early) %>"
+    )
   end
 
   def app_name
