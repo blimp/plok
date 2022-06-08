@@ -4,6 +4,7 @@
   top: 0;
   width: var(--sidebar-width);
   transition: .5s;
+  z-index: 10;
 
   a.logo {
     display: block;
