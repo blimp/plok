@@ -5,20 +5,34 @@ class Plok::SidebarGenerator < Rails::Generators::Base
 
   def install
     copy_sidebar_files('wrapper', 'menu_items', 'menu_item', 'offcanvas_menu')
-    add_imports_to_application_scss
+    add_scss_imports_to_application
+    add_js_imports_to_application
     inject_wrapper_block_into_application_layout
+    say("\nAll done! Remember to reboot your server so the new assets can load.\n\n")
   end
 
   private
 
-  def add_imports_to_application_scss
-    if application_scss_file
-      unless file_contains?(application_scss_file, /@import 'plok\/sidebar'/)
-        append_to_file application_scss_file, "@import 'plok/sidebar';\n"
+  def add_js_imports_to_application
+    if application_file(:js)
+      unless file_contains?(application_file(:js), /\/\/= require plok\/sidebar/)
+        append_to_file application_file(:js), "//= require plok/sidebar"
+      end
+    else
+      say("\nWARNING: No suitable application.js file found.\n")
+      say("Please add the following import to your backend application.js file:\n\n")
+      say("//= require plok/sidebar\n\n")
+    end
+  end
+
+  def add_scss_imports_to_application
+    if application_file(:scss)
+      unless file_contains?(application_file(:scss), /@import 'plok\/sidebar'/)
+        append_to_file application_file(:scss), "@import 'plok/sidebar';\n"
       end
 
-      unless file_contains?(application_scss_file, /@import 'plok\/sidebar_compact'/)
-        append_to_file application_scss_file, "@import 'plok/sidebar_compact';\n"
+      unless file_contains?(application_file(:scss), /@import 'plok\/sidebar_compact'/)
+        append_to_file application_file(:scss), "@import 'plok/sidebar_compact';\n"
       end
     else
       say("\nWARNING: No suitable application.scss file found.\n")
@@ -84,13 +98,16 @@ class Plok::SidebarGenerator < Rails::Generators::Base
     end
   end
 
-  def application_scss_file
-    if File.exists?('app/assets/stylesheets/backend/bs5/application.scss')
-      return 'app/assets/stylesheets/backend/bs5/application.scss'
+  def application_file(type)
+    namespace = 'stylesheets'
+    namespace = 'javascripts' if type.to_s == 'js'
+
+    if File.exists?("app/assets/#{namespace}/backend/bs5/application.#{type}")
+      return "app/assets/#{namespace}/backend/bs5/application.#{type}"
     end
 
-    if File.exists?('app/assets/stylesheets/backend/application.scss')
-      return 'app/assets/stylesheets/backend/application.scss'
+    if File.exists?("app/assets/#{namespace}/backend/application.#{type}")
+      return "app/assets/#{namespace}/backend/application.#{type}"
     end
   end
 end
