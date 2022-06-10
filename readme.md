@@ -1,5 +1,17 @@
 # Plok
 
+## Backend sidebar navigation component
+A `plok:sidebar` generator was added that'll copy over the necessary markup
+files for a mobile-friendly sidebar component in your backend:
+
+```bash
+bin/rails g plok:sidebar
+```
+
+Note that it will only copy markup files so as to guarantee uniform
+functionality across our backends, especially in regards to the JS. Meanwhile, 
+custom changes or additions to the CSS should be made in supplementary files.
+
 ## Overriding models
 You might want to add something to a Plok model at some point. As an example, 
 let's override `Log`.
