@@ -2,6 +2,7 @@ require 'rails/generators/base'
 
 class Plok::SidebarGenerator < Rails::Generators::Base
   source_root File.expand_path('templates', __dir__)
+  class_option :css_framework, type: :string, default: 'bs5'
 
   def install
     copy_sidebar_files('wrapper', 'menu_items', 'menu_item', 'offcanvas_menu')
@@ -51,7 +52,7 @@ class Plok::SidebarGenerator < Rails::Generators::Base
       say("\nWARNING: The generator could not inject the sidebar wrapper.\n")
       say("You will have to wrap your backend application markup in this block:\n\n")
       say("# #{application_layout_file}\n")
-      say("<%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n")
+      say("<%= render 'backend/#{options.css_framework}/sidebar/wrapper', brand_name: '#{app_name}' do %>\n")
       say("  # ...your backend application markup here...\n")
       say("<% end %>\n")
       return
@@ -60,7 +61,7 @@ class Plok::SidebarGenerator < Rails::Generators::Base
     gsub_file(
       application_layout_file,
       /<body(.*)>\n/,
-      "<body\\1>\n  <%= render 'backend/bs5/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
+      "<body\\1>\n  <%= render 'backend/#{options.css_framework}/sidebar/wrapper', brand_name: '#{app_name}' do %>\n"
     )
 
     gsub_file(
@@ -81,7 +82,7 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   end
 
   def sidebar_partial_path(partial_name)
-    "app/views/backend/bs5/sidebar/_#{partial_name}.html.erb"
+    "app/views/backend/#{options.css_framework}/sidebar/_#{partial_name}.html.erb"
   end
 
   def file_contains?(file, content)
@@ -89,8 +90,8 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   end
 
   def application_layout_file
-    if File.exists?('app/views/layouts/backend/bs5/application.html.erb')
-      return 'app/views/layouts/backend/bs5/application.html.erb'
+    if File.exists?("app/views/layouts/backend/#{options.css_framework}/application.html.erb")
+      return "app/views/layouts/backend/#{options.css_framework}/application.html.erb"
     end
 
     if File.exists?('app/views/layouts/backend/application.html.erb')
@@ -102,8 +103,8 @@ class Plok::SidebarGenerator < Rails::Generators::Base
     namespace = 'stylesheets'
     namespace = 'javascripts' if type.to_s == 'js'
 
-    if File.exists?("app/assets/#{namespace}/backend/bs5/application.#{type}")
-      return "app/assets/#{namespace}/backend/bs5/application.#{type}"
+    if File.exists?("app/assets/#{namespace}/backend/#{options.css_framework}/application.#{type}")
+      return "app/assets/#{namespace}/backend/#{options.css_framework}/application.#{type}"
     end
 
     if File.exists?("app/assets/#{namespace}/backend/application.#{type}")
