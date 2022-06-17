@@ -1,0 +1,16 @@
+<% lbl ||= t("b.#{name}") %>
+<% href ||= defined?(path) ? path : "#nav-#{name}" %>
+
+<%= content_tag :li, class: 'top-level' do %>
+  <%= link_to href, class: 'top-level-anchor link-light', data: { bs_toggle: ('collapse' unless defined?(path)) } do %>
+    <%= fa_icon icon, class: 'fa-fw' %>
+    <%= content_tag :span, lbl, class: 'text' %>
+  <% end %>
+
+  <% unless defined?(path) %>
+    <%= content_tag :div, id: "nav-#{name}", class: 'collapse' do %>
+      <h4><%= lbl %></h4>
+      <%= yield %>
+    <% end %>
+  <% end %>
+<% end %>

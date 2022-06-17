@@ -1,0 +1,66 @@
+.wrapper.compact {
+  .content {
+    margin-left: var(--sidebar-compact-width);
+
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+    }
+  }
+
+  .sidebar-menu {
+    width: var(--sidebar-compact-width);
+
+    @include media-breakpoint-down(md) {
+      width: 0;
+    }
+
+    a.logo {
+      display: none !important;
+    }
+
+    a.home-icon {
+      display: block !important;
+    }
+
+    ul li.top-level {
+      > a { // The icons in the compact view.
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h4 {
+        cursor: default;
+        display: inline-block;
+        font-size: .9rem;
+        padding: 13px 0 0 5px;
+        vertical-align: middle;
+        text-transform: uppercase;
+      }
+
+      ul li {
+        &::before {
+          left: calc(var(--sidebar-icon-width) - 5px);
+        }
+
+        a {
+          padding-left: calc(var(--sidebar-icon-width) + 10px);
+
+          &:hover {
+            background-color: $primary;
+          }
+        }
+      }
+
+      .fa { font-size: 20px; }
+      .text { display: none; }
+
+      .collapse {
+        background-color: $secondary;
+        left: var(--sidebar-compact-width);
+        position: absolute;
+        top: 0;
+        width: 240px;
+      }
+    }
+  }
+}

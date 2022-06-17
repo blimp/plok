@@ -1,6 +1,7 @@
-1.0.0 - xxxx-xx-xx
+1.0.0 - 2022-06-17
 --
-* Add the Module class to use 'takes' initializers in classes.
+* Added the Module class to use 'takes' initializers in classes.
+* Added the plok:sidebar generator to generate a functional backend sidebar.
 
 
 0.2.12 - 2022-05-12

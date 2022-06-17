@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="sidebar-menu text-light bg-dark overflow-auto">
+    <%= link_to backend_path, class: 'text-center navbar-brand logo text-light me-0' do %>
+      <%= brand_name %>
+    <% end %>
+
+    <%= link_to fa_icon(:'home'), backend_path, class: 'text-center navbar-brand home-icon text-light fs-2 me-0' %>
+
+    <nav class="mt-3">
+      <%= render 'backend/bs5/sidebar/menu_items' %>
+    </nav>
+  </div>
+
+  <div class="content">
+    <%= yield %>
+  </div>
+</div>
+
+<%= render 'backend/bs5/sidebar/offcanvas_menu', brand_name: brand_name %>

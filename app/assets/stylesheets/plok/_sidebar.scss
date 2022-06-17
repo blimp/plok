@@ -1,0 +1,86 @@
+.sidebar-menu {
+  bottom: 0;
+  position: fixed;
+  top: 0;
+  width: var(--sidebar-width);
+  transition: .5s;
+  z-index: 10;
+
+  a.logo {
+    display: block;
+    letter-spacing: 0.1em;
+    line-height: 45px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  a.home-icon {
+    display: none !important;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      cursor: pointer;
+
+      a {
+        color: #fff; // $color-contrast-light from the Bootstrap gem.
+        display: block;
+        font-size: 1rem;
+        padding: 10px;
+        padding-left: var(--sidebar-menu-item-left-margin);
+        text-decoration: none !important;
+
+        &:hover {
+          background-color: #6c757d; // $secondary from the Bootstrap gem.
+        }
+      }
+
+      &.top-level {
+        letter-spacing: .05em;
+        position: relative;
+
+        .fa {
+          font-size: 14px;
+          width: var(--sidebar-icon-width);
+        }
+
+        .text {
+          cursor: default;
+          font-size: 0.8rem;
+          padding: 16px 0 12px 0;
+          pointer-events: none;
+          text-transform: uppercase;
+        }
+
+        div[id^=nav-] {
+          h4 {
+            display: none;
+          }
+
+          ul li {
+            position: relative;
+
+            &::before {
+              content: '\25A1';
+              font-size: 0.4rem;
+              left: calc(var(--sidebar-menu-item-left-margin) + 15px);
+              position: absolute;
+              top: 15px;
+            }
+
+            a {
+              font-size: 0.8rem;
+              padding-left: calc(var(--sidebar-menu-item-left-margin) + var(--sidebar-icon-width) + 10px);
+              text-transform: uppercase;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+}

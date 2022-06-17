@@ -1,0 +1,9 @@
+<ul class="justify-content-center">
+  <%= render 'backend/bs5/sidebar/menu_item', name: 'admins', icon: 'user-secret-o' do %>
+    <ul>
+      <%= content_tag :li do %>
+        <%= link_to t('b.overview'), backend_admins_path %>
+      <% end %>
+    </ul>
+  <% end %>
+</ul>
