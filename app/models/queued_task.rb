@@ -55,6 +55,13 @@ class QueuedTask < ActiveRecord::Base
     destroy
   end
 
+  # You want this separate from #unlock so the ensure block in #process! does
+  # not keep resetting attempts when it shouldn't. This should be called
+  # from the controller where you manually unlock tasks in your backend.
+  def reset_attempts!
+    update_column(:attempts, 0)
+  end
+
   def increase_attempts!
     update_column(:attempts, attempts + 1)
   end
