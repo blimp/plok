@@ -8,3 +8,4 @@ spec/dummy/tmp/
 .ruby-version
 config/database.yml
 todo
+.env
