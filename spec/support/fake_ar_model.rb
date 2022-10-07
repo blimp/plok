@@ -2,17 +2,26 @@
 # not tied to a database. This is useful if you want to write tests for concerns
 # without tying them to project-specific models.
 #
-# Projects using Plok can also use this, provided they call
-# Plok::Engine.load_spec_supports in their spec/rails_helper.rb file.
+# * It allows you to not mock simple ActiveRecord DSL like find/find_by/where
+#   calls.
+# * Projects using Plok can also use this, provided they call
+#   Plok::Engine.load_spec_supports in their spec/rails_helper.rb file.
+# * Even if you're required to mock additional business logic onto your classes,
+#   you can just extend from Plok::FakeArModel to fill in gaps.
 #
-# Note that you'll be able to do some funky mocking with this by extending from
-# it inline and fill in any gaps. Example:
+#   Example:
 #
-# class Product < Plok::BogusModel
+#     class Product < Plok::FakeArModel
+#       def visible?
+#         true
+#       end
 #
-# end
+#       def hidden?
+#         !visible?
+#       end
+#     end
 #
-class Plok::BogusModel
+class Plok::FakeArModel
   extend  ActiveModel::Naming
   extend  ActiveModel::Translation
   include ActiveModel::Validations
@@ -35,7 +44,7 @@ class Plok::BogusModel
   end
 
   def self.polymorphic_name
-    :bogus_modelable
+    :fake_ar_modelable
   end
 
   def self.current_scope

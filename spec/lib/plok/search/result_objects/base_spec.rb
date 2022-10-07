@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Plok::Search::ResultObjects::Base do
   let(:index) do
     create(:search_index,
-           searchable_type: 'Plok::BogusModel',
+           searchable_type: 'Plok::FakeArModel',
            searchable_id: 1,
            name: 'name',
            value: 'foo')
@@ -13,10 +13,10 @@ describe Plok::Search::ResultObjects::Base do
   subject { described_class.new(index, search_context: search_context) }
 
   describe '#label' do
-    let(:bogus_model) { Plok::BogusModel.new(id: 1, foo: 'foobar') }
+    let(:fake_ar_model) { Plok::FakeArModel.new(id: 1, foo: 'foobar') }
 
     it 'default' do
-      index = create(:search_index, searchable: bogus_model, name: 'foo', value: 'foobar')
+      index = create(:search_index, searchable: fake_ar_model, name: 'foo', value: 'foobar')
       subject = described_class.new(index, search_context: search_context)
 
       expect(subject.label).to eq 'foobar'
@@ -25,13 +25,13 @@ describe Plok::Search::ResultObjects::Base do
     it 'flexible_content' do
       # TODO: Remove this placeholder class when flexible content stuff (or
       # at least ContentText) gets added to Plok.
-      class ContentText < Plok::BogusModel; end
+      class ContentText < Plok::FakeArModel; end
       ContentText.collection([
         { id: 1, content: 'This search is foobar.' }
       ])
 
       index = create(:search_index,
-                     searchable: bogus_model,
+                     searchable: fake_ar_model,
                      name: "flexible_content:1",
                      value: 'foobar')
       subject = described_class.new(index, search_context: search_context)
@@ -42,11 +42,11 @@ describe Plok::Search::ResultObjects::Base do
 
   it '#locals' do
     allow(index).to receive(:searchable) { 'bar' }
-    expect(subject.locals).to eq({ 'plok/bogus_model': 'bar', index: index })
+    expect(subject.locals).to eq({ 'plok/fake_ar_model': 'bar', index: index })
   end
 
   it '#partial' do
-    expect(subject.partial).to eq 'frontend/search/plok/bogus_model'
+    expect(subject.partial).to eq 'frontend/search/plok/fake_ar_model'
   end
 
   it '#partial_path' do
@@ -61,7 +61,7 @@ describe Plok::Search::ResultObjects::Base do
 
   describe '#hidden?' do
     it 'false' do
-      index = create(:search_index, searchable: Plok::BogusModel.new(visible: true))
+      index = create(:search_index, searchable: Plok::FakeArModel.new(visible: true))
       subject = described_class.new(index, search_context: search_context)
       expect(subject.hidden?).to be false
     end
@@ -69,7 +69,7 @@ describe Plok::Search::ResultObjects::Base do
 
   describe '#unpublished?' do
     it 'false' do
-      index = create(:search_index, searchable: Plok::BogusModel.new(published: true))
+      index = create(:search_index, searchable: Plok::FakeArModel.new(published: true))
       subject = described_class.new(index, search_context: search_context)
       expect(subject.unpublished?).to be false
     end

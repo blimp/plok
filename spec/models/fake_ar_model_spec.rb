@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Plok::BogusModel do
+describe Plok::FakeArModel do
   it 'makes arguments available as value methods' do
     expect(described_class.new(gaga: 'booboo').gaga).to eq 'booboo'
   end
