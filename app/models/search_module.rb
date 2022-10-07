@@ -1,4 +1,4 @@
-class SearchModule < ApplicationRecord
+class SearchModule < ActiveRecord::Base
   scope :weighted, -> { order('weight DESC') }
 
   validates :name, presence: true

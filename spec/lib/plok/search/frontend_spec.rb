@@ -1,19 +1,19 @@
 # require 'rails_helper'
 #
-# describe Udongo::Search::Frontend do
+# describe Plok::Search::Frontend do
 #   let(:klass) { described_class.to_s.underscore.to_sym }
 #   let(:controller) { double(:controller, class_name: 'Frontend', locale: 'nl') }
 #   subject { described_class.new('foo', controller: controller) }
 #
 #   before(:each) do
-#     module Udongo::Search::ResultObjects::RSpec
-#       class Class < Udongo::Search::ResultObjects::Base
+#     module Plok::Search::ResultObjects::RSpec
+#       class Class < Plok::Search::ResultObjects::Base
 #       end
 #     end
 #   end
 #
 #   describe '#search' do
-#     let(:foo) { Udongo::BogusModel.new(description: 'foobar') }
+#     let(:foo) { Plok::FakeArModel.new(description: 'foobar') }
 #     let(:index) { create(:search_index, searchable: foo, locale: 'nl', name: 'description', value: 'foobar') }
 #
 #     before do

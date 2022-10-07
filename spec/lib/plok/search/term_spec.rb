@@ -1,6 +1,6 @@
 # require 'rails_helper'
 #
-# describe Udongo::Search::Term do
+# describe Plok::Search::Term do
 #   before(:each) do
 #     @synonym_a = create(:search_synonym, locale: 'nl', term: 'Dave', synonyms: 'developer')
 #     @synonym_b = create(:search_synonym, locale: 'nl', term: 'foobar', synonyms: 'blub,blubber,blubst')
@@ -11,8 +11,8 @@
 #   describe '#locale' do
 #     subject { described_class.new('foobar') }
 #
-#     it 'defaults to Udongo.config.i18n.app.default_locale without controller input' do
-#       allow(Udongo.config.i18n.app).to receive(:default_locale) { 'jp' }
+#     it 'defaults to Plok.config.i18n.app.default_locale without controller input' do
+#       allow(Plok.config.i18n.app).to receive(:default_locale) { 'jp' }
 #       expect(subject.locale).to eq :jp
 #     end
 #

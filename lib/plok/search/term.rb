@@ -1,4 +1,4 @@
-module Udongo::Search
+module Plok::Search
   class Term
     attr_reader :controller, :string
 

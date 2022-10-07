@@ -1,12 +1,12 @@
-module Udongo::Search
+module Plok::Search
   # The goal of the Base class is to filter our indices on the given search
   # term. Further manipulation of individual index data into a meaningful
   # result set (think autocomplete results) is done by extending this class.
   #
   # Examples of class extensions could be:
-  # Udongo::Search::Backend - included in Udongo
-  # Udongo::Search::Frontend
-  # Udongo::Search::Api
+  # Plok::Search::Backend - included in Plok
+  # Plok::Search::Frontend
+  # Plok::Search::Api
   #
   # The primary benefit in having these namespaced search interfaces is to
   # provide a way for the developer to have different result objects for
@@ -25,7 +25,7 @@ module Udongo::Search
     attr_reader :term, :controller
 
     def initialize(term, controller: nil, namespace: nil)
-      @term = Udongo::Search::Term.new(term, controller: controller)
+      @term = Plok::Search::Term.new(term, controller: controller)
       @controller = controller
       @namespace = namespace
     end
@@ -66,8 +66,8 @@ module Udongo::Search
     # to translate the raw index to a class that makes an index adhere
     # to a certain interface (that can include links).
     def result_object(index)
-      klass = "Udongo::Search::ResultObjects::#{namespace}::#{index.searchable_type}"
-      klass = 'Udongo::Search::ResultObjects::Base' unless result_object_exists?(klass)
+      klass = "Plok::Search::ResultObjects::#{namespace}::#{index.searchable_type}"
+      klass = 'Plok::Search::ResultObjects::Base' unless result_object_exists?(klass)
       klass.constantize.new(index, search_context: self)
     end
 
