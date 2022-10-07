@@ -81,8 +81,7 @@ describe Plok::Search::Base do
       end
 
       it 'class exists, no #build_html method defined' do
-        class Plok::Search::ResultObjects::Blub
-        end
+        class Plok::Search::ResultObjects::Blub; end
         expect(subject.result_object_exists?('Plok::Search::ResultObjects::Blub')).to be false
       end
     end
