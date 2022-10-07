@@ -44,7 +44,7 @@ class Plok::FakeArModel
   end
 
   def self.polymorphic_name
-    :fake_ar_modelable
+    :fake_ar_model
   end
 
   def self.current_scope
