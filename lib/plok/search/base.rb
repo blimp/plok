@@ -30,13 +30,6 @@ module Plok::Search
       @namespace = namespace
     end
 
-    def class_exists?(class_name)
-      klass = Module.const_get(class_name)
-      return klass.is_a?(Class)
-    rescue NameError
-      return false
-    end
-
     def indices
       # Having the searchmodules sorted by weight returns indices in the
       # correct order.

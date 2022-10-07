@@ -1,0 +1,43 @@
+.ui-autocomplete {
+  width: 30rem !important;
+  padding: 0;
+  z-index: 9999;
+  filter: drop-shadow(5px 5px 5px #666);
+}
+
+// Shows up during autocompletion sometimes.
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+li.ui-menu-item {
+  list-style: none;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+
+  &:last-child {
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &:hover {
+    background-color: $primary;
+    color: white !important;
+  }
+
+  a.ui-menu-item-wrapper {
+    border: none;
+
+    &.ui-state-active {
+      background: none;
+      color: inherit;
+      text-decoration: none;
+
+      .text-muted {
+        color: white !important;
+      }
+    }
+  }
+}
