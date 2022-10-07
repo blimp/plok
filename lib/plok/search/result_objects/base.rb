@@ -1,4 +1,4 @@
-module Udongo
+module Plok
   class InterfaceNotImplementedError < NoMethodError
   end
 
@@ -40,6 +40,8 @@ module Udongo
         end
 
         def label
+          # We want to grab the name of the index from ContentText whenever
+          # we're dealing with FlexibleContent stuff.
           if index.name.include?('flexible_content')
             id = index.name.split(':')[1].to_i
             return ContentText.find(id).content
