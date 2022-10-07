@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_142356) do
+ActiveRecord::Schema.define(version: 2022_09_23_164100) do
 
   create_table "logs", charset: "utf8mb4", force: :cascade do |t|
     t.string "category"
@@ -37,6 +37,28 @@ ActiveRecord::Schema.define(version: 2022_05_12_142356) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["locked"], name: "index_queued_tasks_on_locked"
     t.index ["weight"], name: "index_queued_tasks_on_weight"
+  end
+
+  create_table "search_indices", charset: "utf8mb4", force: :cascade do |t|
+    t.string "searchable_type"
+    t.integer "searchable_id"
+    t.string "locale"
+    t.string "name"
+    t.text "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["locale", "name"], name: "index_search_indices_on_locale_and_name"
+    t.index ["locale"], name: "index_search_indices_on_locale"
+    t.index ["searchable_type", "searchable_id"], name: "index_search_indices_on_searchable_type_and_searchable_id"
+  end
+
+  create_table "search_modules", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.boolean "searchable"
+    t.integer "weight"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "searchable"], name: "index_search_modules_on_name_and_searchable"
   end
 
 end
