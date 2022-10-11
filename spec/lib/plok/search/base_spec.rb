@@ -15,11 +15,11 @@ describe Plok::Search::Base do
 
   describe '#class_exists?' do
     it 'true' do
-      expect(subject.class_exists?('Plok::Search::ResultObjects::Frontend::Foo')).to be true
+      expect(Plok::Engine.class_exists?('Plok::Search::ResultObjects::Frontend::Foo')).to be true
     end
 
     it 'false' do
-      expect(subject.class_exists?('Plok::Search::ResultObjects::Frontend::Bar')).to be false
+      expect(Plok::Engine.class_exists?('Plok::Search::ResultObjects::Frontend::Bar')).to be false
     end
   end
 
@@ -76,7 +76,7 @@ describe Plok::Search::Base do
 
     describe 'false' do
       it 'class does not exist' do
-        allow(subject).to receive(:class_exists?) { false }
+        allow(Plok::Engine).to receive(:class_exists?) { false }
         expect(subject.result_object_exists?('')).to be false
       end
 

@@ -1,10 +1,3 @@
-def class_exists?(class_name)
-  klass = Module.const_get(class_name)
-  return klass.is_a?(Class)
-rescue NameError
-  return false
-end
-
 class Module
   def takes(*arg_names)
     define_method(:initialize) do |*arg_values|

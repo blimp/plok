@@ -65,7 +65,7 @@ module Plok::Search
     end
 
     def result_object_exists?(name)
-      class_exists?(name) && name.constantize.method_defined?(:build_html)
+      Plok::Engine.class_exists?(name) && name.constantize.method_defined?(:build_html)
     end
   end
 end
