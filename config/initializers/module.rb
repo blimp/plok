@@ -8,6 +8,7 @@ class Module
         end
 
         instance_variable_set(:"@#{name}", value)
+        singleton_class.instance_eval { attr_reader name.to_sym }
       end
     end
   end
