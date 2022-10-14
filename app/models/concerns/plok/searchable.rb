@@ -54,7 +54,7 @@ module Plok::Searchable
 
       search_indices
         .find_or_create_by!(name: key, locale: locale)
-        .update_column(value: value)
+        .update_column(:value, value)
     end
 
     # This exists so we can use #save_search_index! as the main method
