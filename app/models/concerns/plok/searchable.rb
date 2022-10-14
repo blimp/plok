@@ -43,31 +43,33 @@ module Plok::Searchable
         row.columns.each do |column|
           next unless column.content.is_a?(ContentText)
           key = "flexible_content:#{column.content_id}"
-          index = search_indices.find_or_create_by!(locale: row.locale, name: key)
-          index.value = column.content.content
-          index.save!
+          save_index!(key, value: column.content.content, locale: row.locale)
         end
       end
     end
 
-    def save_search_index!(key)
-      value = send(key)
+    def save_index!(key, value: nil, locale: nil)
+      value = read_attribute(key) if value.blank? && respond_to?(key)
       return if value.blank?
 
-      %w(nl fr).each do |locale|
-        index = search_indices.find_or_create_by!(locale: locale, name: key)
-        index.value = value
-        index.save!
-      end
+      search_indices
+        .find_or_create_by!(name: key, locale: locale)
+        .update_column(value: value)
+    end
+
+    # This exists so we can use #save_search_index! as the main method
+    # to override, and then be able to call #save_index! in the overridden
+    # method to accommodate further defaults.
+    def save_search_index!(key)
+      value = read_attribute(key)
+      save_index!(key, value: value)
     end
 
     def save_translatable_search_index!(key)
+      # TODO: locales can't be hardcoded
       %w(nl fr).each do |locale|
         value = translation(locale.to_sym).send(key)
-        next if value.blank?
-        index = search_indices.find_or_create_by!(locale: locale, name: key)
-        index.value = value
-        index.save!
+        save_index!(key, value: value, locale: locale)
       end
     end
 
