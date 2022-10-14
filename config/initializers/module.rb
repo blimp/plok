@@ -1,10 +1,3 @@
-def class_exists?(class_name)
-  klass = Module.const_get(class_name)
-  return klass.is_a?(Class)
-rescue NameError
-  return false
-end
-
 class Module
   def takes(*arg_names)
     define_method(:initialize) do |*arg_values|
@@ -15,6 +8,7 @@ class Module
         end
 
         instance_variable_set(:"@#{name}", value)
+        singleton_class.instance_eval { attr_reader name.to_sym }
       end
     end
   end

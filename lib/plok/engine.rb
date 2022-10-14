@@ -22,14 +22,14 @@ module Plok
     # Autoload classes from the lib dir
     config.autoload_paths << File.expand_path('../..', __FILE__)
 
-    def class_exists?(class_name)
+    def self.class_exists?(class_name)
       klass = Module.const_get(class_name.to_s)
       klass.is_a?(Class)
     rescue NameError
       return false
     end
 
-    def module_exists?(module_name)
+    def self.module_exists?(module_name)
       # By casting to a string and making a constant, we can assume module_name
       # can be either one without it being a problem.
       module_name.to_s.constantize.is_a?(Module)
