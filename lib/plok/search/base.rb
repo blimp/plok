@@ -37,13 +37,12 @@ module Plok::Search
         # The group happens to make sure we end up with just 1 copy of
         # a searchable result. Otherwise matches from both an indexed
         # Page#title and Page#description would be in the result set.
-        stack << m.indices
-                  .where(
-                    '(searchable_id = ? OR search_indices.value LIKE ?)',
-                    term.value,
-                    "%#{term.value}%"
-                  )
-                  .group([:searchable_type, :searchable_id])
+        #
+        # TODO: See if there's a way to pass weight through individual records.
+        stack << m
+          .indices
+          .where('search_indices.value LIKE ?', "%#{term.value}%")
+          .group([:searchable_type, :searchable_id])
       end.flatten
     end
 
