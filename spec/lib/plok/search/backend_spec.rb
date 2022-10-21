@@ -12,7 +12,7 @@ describe Plok::Search::Backend do
       end
     end
 
-    create(:search_module, name: 'FakePage', weight: 1)
+    create(:search_module, klass: 'FakePage', weight: 1)
 
     # So we can use "bogus" partials.
     ApplicationController.view_paths << 'spec/fixtures/files'

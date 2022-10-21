@@ -36,9 +36,9 @@ describe Plok::Search::Base do
     # error. These are notoriously non-descript and sometimes hard to fix, so
     # skip for now.
     #it 'returns results sorted by SearchModule weight' do
-      #create(:search_module, name: 'Foo', weight: 1)
-      #create(:search_module, name: 'Bar', weight: 10)
-      #create(:search_module, name: 'Baz', weight: 5)
+      #create(:search_module, klass: 'Foo', weight: 1)
+      #create(:search_module, klass: 'Bar', weight: 10)
+      #create(:search_module, klass: 'Baz', weight: 5)
 
       #a = create(:search_index, searchable_type: 'Bar', searchable_id: 1, value: 'foo')
       #b = create(:search_index, searchable_type: 'Bar', searchable_id: 2, value: 'foo')
