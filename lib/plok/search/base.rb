@@ -30,20 +30,24 @@ module Plok::Search
       @namespace = namespace
     end
 
-    def indices
+    # TODO: Make use of "searchable".
+    # TODO: What if records are hidden? Make this smart and have SearchIndex#visible?
+    # TODO: SearchIndexCollection
+    # TODO: See if there's a way to pass weight through individual records.
+    def indices(&block)
+      return [] if search_modules(&block).blank?
+
       # Having the searchmodules sorted by weight returns indices in the
       # correct order.
-      @indices ||= SearchModule.weighted.inject([]) do |stack, m|
-        # The group happens to make sure we end up with just 1 copy of
-        # a searchable result. Otherwise matches from both an indexed
-        # Page#title and Page#description would be in the result set.
-        #
-        # TODO: See if there's a way to pass weight through individual records.
-        stack << m
-          .indices
-          .where('search_indices.value LIKE ?', "%#{term.value}%")
-          .group([:searchable_type, :searchable_id])
-      end.flatten
+      #
+      # The group happens to make sure we end up with just 1 copy of
+      # a searchable result. Otherwise matches from both an indexed
+      # Page#title and Page#description would be in the result set.
+      @indices ||= SearchIndex
+        .joins('INNER JOIN search_modules AS a ON search_indices.searchable_type = a.klass')
+        .where('a.klass in (?)', search_modules(&block))
+        .where('search_indices.value LIKE ?', "%#{term.value}%")
+        .group([:searchable_type, :searchable_id])
     end
 
     def namespace
@@ -65,6 +69,12 @@ module Plok::Search
 
     def result_object_exists?(name)
       Plok::Engine.class_exists?(name) && name.constantize.method_defined?(:build_html)
+    end
+
+    def search_modules(&block)
+      @search_modules ||= SearchModule.weighted.searchable.pluck(:klass)
+      @search_modules = yield(@search_modules) if block_given?
+      @search_modules
     end
   end
 end
