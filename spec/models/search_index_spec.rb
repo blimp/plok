@@ -5,7 +5,6 @@ describe SearchIndex do
 
   describe 'validations' do
     describe 'presence' do
-      it(:locale) { expect(build(klass, locale: nil)).to_not be_valid }
       it(:name) { expect(build(klass, name: nil)).to_not be_valid }
     end
   end
