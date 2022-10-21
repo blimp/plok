@@ -12,6 +12,8 @@ module Plok::Search
     #
     # Note that the result_object#url method is defined in
     # Plok::Search::ResultObjects::Backend::Page.
+    #
+    # TODO: Make this able to pass a list of searchable modules.
     def search
       indices.map do |index|
         result = result_object(index)

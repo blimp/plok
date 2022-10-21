@@ -1,5 +1,7 @@
 namespace 'plok:search' do
   desc 'Rebuild all search indices'
+  # TODO: pass module(s) as parameter.
+  # TODO: Rework to be less "intrusive" (remove SearchIndex#destroy_all, for starters).
   task rebuild_indices: :environment do
     SearchIndex.destroy_all
     SearchModule.where(searchable: true).each do |m|
