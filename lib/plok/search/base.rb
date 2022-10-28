@@ -22,6 +22,7 @@ module Plok::Search
   #
   # However these result objects are structured are also up to the developer.
   class Base
+
     attr_reader :term, :controller
 
     def initialize(term, controller: nil, namespace: nil)
@@ -30,24 +31,11 @@ module Plok::Search
       @namespace = namespace
     end
 
-    # TODO: Make use of "searchable".
-    # TODO: What if records are hidden? Make this smart and have SearchIndex#visible?
-    # TODO: SearchIndexCollection
-    # TODO: See if there's a way to pass weight through individual records.
-    def indices(&block)
-      return [] if search_modules(&block).blank?
-
-      # Having the searchmodules sorted by weight returns indices in the
-      # correct order.
-      #
-      # The group happens to make sure we end up with just 1 copy of
-      # a searchable result. Otherwise matches from both an indexed
-      # Page#title and Page#description would be in the result set.
-      @indices ||= SearchIndex
-        .joins('INNER JOIN search_modules AS a ON search_indices.searchable_type = a.klass')
-        .where('a.klass in (?)', search_modules(&block))
-        .where('search_indices.value LIKE ?', "%#{term.value}%")
-        .group([:searchable_type, :searchable_id])
+    def format_search_results(indices, label_method: :build_html, value_method: :url)
+      indices.map do |index|
+        result = result_object(index)
+        { label: result.send(label_method), value: result.send(value_method) }
+      end
     end
 
     def namespace
@@ -71,10 +59,26 @@ module Plok::Search
       Plok::Engine.class_exists?(name) && name.constantize.method_defined?(:build_html)
     end
 
-    def search_modules(&block)
-      @search_modules ||= SearchModule.weighted.searchable.pluck(:klass)
-      @search_modules = yield(@search_modules) if block_given?
-      @search_modules
+    # TODO: What if records are hidden? Make this smart and have SearchIndex#visible?
+    # TODO: SearchIndexCollection
+    # TODO: See if there's a way to pass weight through individual records.
+    def search_indices(modules: [])
+      modules = SearchModule.searchable.pluck(:klass) if modules.blank?
+
+      # Having the searchmodules sorted by weight returns indices in the
+      # correct order.
+      #
+      # The group happens to make sure we end up with just 1 copy of
+      # a searchable result. Otherwise matches from both an indexed
+      # Page#title and Page#description would be in the result set.
+      @search_indices ||= SearchIndex
+        .joins('INNER JOIN search_modules ON search_indices.searchable_type = search_modules.klass')
+        .where('search_modules.searchable': true)
+        .where('search_modules.klass in (?)', modules)
+        .where('search_indices.value LIKE ?', "%#{term.value}%")
+        .group([:searchable_type, :searchable_id])
+        .preload(:searchable) # ".includes" for polymorphic relations
     end
+
   end
 end
