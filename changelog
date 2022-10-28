@@ -1,3 +1,8 @@
+1.0.3 - 2022-10-28
+--
+* Plok::Searchable: Use #plok-search as the search input ID.
+
+
 1.0.2 - 2022-10-14
 --
 * Plok::Searchable: Fix slight error in save_index! causing the column update
