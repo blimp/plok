@@ -41,14 +41,14 @@ describe Plok::Search::Backend do
       subject { described_class.new('foobar', controller: controller) }
 
       it 'single' do
-        allow(subject).to receive(:indices) { [@index_a] }
+        allow(subject).to receive(:search_indices) { [@index_a] }
 
         expect(subject.search).to eq [{ label: "Pagina — Foo<br />\n<small>\n  foobar\n</small>\n", value: '/backend/pages/1/edit' }]
       end
 
       it 'multiple' do
         index_b = create(:search_index, searchable: @page_b, locale: 'nl', name: 'description', value: 'foobar too')
-        allow(subject).to receive(:indices) { [@index_a, index_b] }
+        allow(subject).to receive(:search_indices) { [@index_a, index_b] }
 
         expect(subject.search).to eq [
           { label: "Pagina — Foo<br />\n<small>\n  foobar\n</small>\n", value: '/backend/pages/1/edit' },
@@ -59,6 +59,6 @@ describe Plok::Search::Backend do
   end
 
   it '#responds_to?' do
-    expect(subject).to respond_to(:indices, :result_object)
+    expect(subject).to respond_to(:search_indices, :result_object)
   end
 end

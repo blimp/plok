@@ -15,7 +15,7 @@ module Plok::Search
     #
     # TODO: Make this able to pass a list of searchable modules.
     def search
-      indices.map do |index|
+      search_indices.map do |index|
         result = result_object(index)
         { label: result.build_html, value: result.url }
       end

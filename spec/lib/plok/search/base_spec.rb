@@ -23,13 +23,13 @@ describe Plok::Search::Base do
     end
   end
 
-  describe '#indices' do
+  describe '#search_indices' do
     it 'default' do
-      expect(subject.indices).to eq []
+      expect(subject.search_indices).to eq []
     end
 
     it 'term is an empty string' do
-      expect(described_class.new('').indices).to eq []
+      expect(described_class.new('').search_indices).to eq []
     end
 
     # This test fails in GitHub Actions with a "sql_mode=only_full_group_by"
@@ -46,7 +46,7 @@ describe Plok::Search::Base do
       #d = create(:search_index, searchable_type: 'Foo', searchable_id: 8, value: 'foo')
       #e = create(:search_index, searchable_type: 'Baz', searchable_id: 18, value: 'foo')
 
-      #expect(subject.indices).to eq [a, b, e, c, d]
+      #expect(subject.search_indices).to eq [a, b, e, c, d]
     #end
   end
 
@@ -113,7 +113,7 @@ describe Plok::Search::Base do
 
   it '#responds_to?' do
     expect(subject).to respond_to(
-      :indices
+      :search_indices
     )
   end
 end
