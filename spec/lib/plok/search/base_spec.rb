@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Plok::Search::Base do
   let(:klass) { described_class.to_s.underscore.to_sym }
-  subject { described_class.new('foo') }
+  subject { described_class.new('foo', namespace: 'frontend') }
 
   before do
     module Plok::Search::ResultObjects
@@ -85,35 +85,5 @@ describe Plok::Search::Base do
         expect(subject.result_object_exists?('Plok::Search::ResultObjects::Blub')).to be false
       end
     end
-  end
-
-  describe '#namespace' do
-    before do
-      module Backend
-        class SearchController
-        end
-      end
-    end
-
-    it 'default' do
-      subject = described_class.new('foo')
-      expect(subject.namespace).to eq 'Frontend'
-    end
-
-    it 'backend' do
-      subject = described_class.new('foo', controller: Backend::SearchController.new)
-      expect(subject.namespace).to eq 'Backend'
-    end
-
-    it 'uses override when passed in through the construct' do
-      subject = described_class.new('foo', controller: Backend::SearchController.new, namespace: 'Frontend')
-      expect(subject.namespace).to eq 'Frontend'
-    end
-  end
-
-  it '#responds_to?' do
-    expect(subject).to respond_to(
-      :search_indices
-    )
   end
 end

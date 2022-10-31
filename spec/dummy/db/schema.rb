@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_21_133242) do
+ActiveRecord::Schema.define(version: 2022_10_31_143932) do
 
   create_table "logs", charset: "utf8mb4", force: :cascade do |t|
     t.string "category"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2022_10_21_133242) do
   create_table "search_indices", charset: "utf8mb4", force: :cascade do |t|
     t.string "searchable_type"
     t.integer "searchable_id"
+    t.string "namespace"
     t.string "locale"
     t.string "name"
     t.text "value"

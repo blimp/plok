@@ -2,10 +2,10 @@
 require_relative 'base'
 
 module Plok::Search
-  # The goal of this class is to provide a manipulated version of the filtered
-  # index data that we can use in the result set of an autocomplete-triggered
-  # search query. See Plok::Search::Base for more information on how this
-  # search functionality is designed.
+  # The reason this class exists is mainly to provide a context layer to
+  # override Plok::Search::Base. It provides a manipulated version of the
+  # filtered index data that we can use in the result set of an
+  # autocomplete-triggered search query.
   class Backend < Plok::Search::Base
     # This translates the filtered indices into meaningful result objects.
     #
@@ -18,7 +18,9 @@ module Plok::Search
     # ]
     #
     def search(modules: [])
-      format_search_results(search_indices(modules: modules))
+      format_search_results(
+        search_indices(modules: modules)
+      )
     end
   end
 end

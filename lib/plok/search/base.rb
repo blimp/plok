@@ -23,34 +23,35 @@ module Plok::Search
   # However these result objects are structured are also up to the developer.
   class Base
 
-    attr_reader :term, :controller
+    attr_reader :term, :namespace, :controller
 
-    def initialize(term, controller: nil, namespace: nil)
+    def initialize(term, namespace: nil, controller: nil)
       @term = Plok::Search::Term.new(term, controller: controller)
-      @controller = controller
       @namespace = namespace
+      @controller = controller
     end
 
-    def format_search_results(indices, label_method: :build_html, value_method: :url)
-      search_indices.map do |index|
+    def format_search_results(indices, options = {})
+      options.reverse_merge!(
+        label_method: :build_html,
+        value_method: :url
+      )
+
+      indices.map do |index|
         result = result_object(index)
-        { label: result.send(label_method), value: result.send(value_method) }
-      end
-    end
 
-    def namespace
-      # This looks daft, but it gives us a foot in the door for when a frontend
-      # search is triggered in the backend.
-      return @namespace unless @namespace.nil?
-      return 'Frontend' if controller.nil?
-      controller.class.module_parent.to_s
+        {
+          label: result.send(options[:label_method]),
+          value: result.send(options[:value_method])
+        }
+      end
     end
 
     # In order to provide a good result set in a search autocomplete, we have
     # to translate the raw index to a class that makes an index adhere
     # to a certain interface (that can include links).
     def result_object(index)
-      klass = "Plok::Search::ResultObjects::#{namespace}::#{index.searchable_type}"
+      klass = "Plok::Search::ResultObjects::#{@namespace.camelcase}::#{index.searchable_type}"
       klass = 'Plok::Search::ResultObjects::Base' unless result_object_exists?(klass)
       klass.constantize.new(index, search_context: self)
     end
@@ -75,6 +76,7 @@ module Plok::Search
         .joins('INNER JOIN search_modules ON search_indices.searchable_type = search_modules.klass')
         .where('search_modules.searchable': true)
         .where('search_modules.klass in (?)', modules)
+        .where('search_indices.namespace = ?', @namespace)
         .where('search_indices.value LIKE ?', "%#{term.value}%")
         .group([:searchable_type, :searchable_id])
         .preload(:searchable) # ".includes" for polymorphic relations

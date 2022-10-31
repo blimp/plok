@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Plok::Search::Backend do
-  subject { described_class.new('foo', namespace: 'Backend') }
+  subject { described_class.new('foo', namespace: 'backend') }
 
   before do
     class FakePage < Plok::FakeArModel; end
@@ -31,6 +31,7 @@ describe Plok::Search::Backend do
         @page_b = FakePage.new(id: 2, title: 'Bar', description: 'foobar too')
         @index_a = create(:search_index,
                           searchable: @page_a,
+                          namespace: 'backend',
                           locale: 'nl',
                           name: 'description',
                           value: 'foobar')
@@ -38,7 +39,7 @@ describe Plok::Search::Backend do
         allow(File).to receive(:exists?) { true }
       end
 
-      subject { described_class.new('foobar', controller: controller) }
+      subject { described_class.new('foobar', namespace: 'backend', controller: controller) }
 
       it 'single' do
         allow(subject).to receive(:search_indices) { [@index_a] }
@@ -47,7 +48,7 @@ describe Plok::Search::Backend do
       end
 
       it 'multiple' do
-        index_b = create(:search_index, searchable: @page_b, locale: 'nl', name: 'description', value: 'foobar too')
+        index_b = create(:search_index, namespace: 'backend', searchable: @page_b, locale: 'nl', name: 'description', value: 'foobar too')
         allow(subject).to receive(:search_indices) { [@index_a, index_b] }
 
         expect(subject.search).to eq [
