@@ -22,13 +22,25 @@ namespace 'plok:search' do
   #
   desc 'Rebuild select search indices (or all of them without additional arguments).'
   task rebuild_indices: :environment do
+    # Default to all searchable modules
     modules = ENV['modules']&.split(',') || SearchModule.searchable.pluck(:klass)
 
-    SearchIndex.where(searchable_type: modules).destroy_all
+    # A safeguard to prevent mishaps
+    modules.select! do |m|
+      SearchModule.exists?(klass: m) && # Only known modules
+        Plok::Engine.class_exists?(m.constantize) # Only existing classes
+    end
+
+    # Faster than SearchIndex.where(searchable_type: modules).destroy_all
+    ActiveRecord::Base
+      .connection
+      .execute("DELETE FROM search_indices WHERE searchable_type in ('#{modules.join("','")}')")
+
     SearchModule.where(klass: modules).each do |m|
       puts "Rebuilding #{m.klass} indices..."
       m.klass.constantize.all.each(&:trigger_indices_save!)
     end
+
     puts "Done."
   end
 end
