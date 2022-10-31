@@ -20,7 +20,7 @@ describe Plok::Search::Backend do
 
   describe '#search' do
     it 'default' do
-      expect(subject.search).to eq []
+      expect(subject.search.to_a).to eq []
     end
 
     context 'results' do

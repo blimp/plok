@@ -14,8 +14,8 @@ module Plok::Search
     # Plok::Search::ResultObjects::Backend::Page.
     #
     # TODO: Make this able to pass a list of searchable modules.
-    def search
-      search_indices.map do |index|
+    def search(modules: [])
+      search_indices(modules: modules).map do |index|
         result = result_object(index)
         { label: result.build_html, value: result.url }
       end

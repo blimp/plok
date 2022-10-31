@@ -25,11 +25,11 @@ describe Plok::Search::Base do
 
   describe '#search_indices' do
     it 'default' do
-      expect(subject.search_indices).to eq []
+      expect(subject.search_indices.to_a).to eq []
     end
 
     it 'term is an empty string' do
-      expect(described_class.new('').search_indices).to eq []
+      expect(described_class.new('').search_indices.to_a).to eq []
     end
 
     # This test fails in GitHub Actions with a "sql_mode=only_full_group_by"
