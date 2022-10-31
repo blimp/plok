@@ -8,17 +8,17 @@ module Plok::Search
   # search functionality is designed.
   class Backend < Plok::Search::Base
     # This translates the filtered indices into meaningful result objects.
-    # These require a { label: ... value: ... } to accommodate jquery-ui.
     #
-    # Note that the result_object#url method is defined in
-    # Plok::Search::ResultObjects::Backend::Page.
+    # #search_indices will return a list of SearchIndex records.
+    # #format_search_results will return a list of jquery-ui friendly hashes:
     #
-    # TODO: Make this able to pass a list of searchable modules.
+    # [
+    #   { label: ... value: ... },
+    #   { label: ... value: ... }
+    # ]
+    #
     def search(modules: [])
-      search_indices(modules: modules).map do |index|
-        result = result_object(index)
-        { label: result.build_html, value: result.url }
-      end
+      format_search_results(search_indices(modules: modules))
     end
   end
 end
