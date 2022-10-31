@@ -32,7 +32,7 @@ module Plok::Search
     end
 
     def format_search_results(indices, label_method: :build_html, value_method: :url)
-      indices.map do |index|
+      search_indices.map do |index|
         result = result_object(index)
         { label: result.send(label_method), value: result.send(value_method) }
       end
