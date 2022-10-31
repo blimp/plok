@@ -78,6 +78,7 @@ module Plok::Search
         .where('search_indices.value LIKE ?', "%#{term.value}%")
         .group([:searchable_type, :searchable_id])
         .preload(:searchable) # ".includes" for polymorphic relations
+        .lazy
     end
 
   end
