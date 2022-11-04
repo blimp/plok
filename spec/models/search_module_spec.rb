@@ -26,9 +26,9 @@ describe SearchModule do
     end
   end
 
-  xdescribe '#indices' do
+  describe '#search_indices' do
     it 'default' do
-      expect(subject.indices).to eq []
+      expect(subject.search_indices).to eq []
     end
 
     it 'filters from other modules' do
@@ -36,11 +36,11 @@ describe SearchModule do
       a = create(:search_index, searchable_type: 'Foo', searchable_id: 1)
       b = create(:search_index, searchable_type: 'Bar', searchable_id: 1)
       c = create(:search_index, searchable_type: 'Foo', searchable_id: 2)
-      expect(subject.indices).to eq [a, c]
+      expect(subject.search_indices).to eq [a, c]
     end
   end
 
-  xit '#responds_to?' do
-    expect(subject).to respond_to(:indices)
+  it '#responds_to?' do
+    expect(subject).to respond_to(:search_indices)
   end
 end
