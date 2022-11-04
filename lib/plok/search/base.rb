@@ -4,7 +4,7 @@ module Plok::Search
   # result set (think autocomplete results) is done by extending this class.
   #
   # Examples of class extensions could be:
-  # Plok::Search::Backend - included in Plok
+  # Plok::Search::Backend
   # Plok::Search::Frontend
   # Plok::Search::Api
   #
