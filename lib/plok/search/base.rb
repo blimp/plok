@@ -60,8 +60,8 @@ module Plok::Search
       Plok::Engine.class_exists?(name) && name.constantize.method_defined?(:build_html)
     end
 
-    # TODO: What if records are hidden? Make this smart and have SearchIndex#visible?
     # TODO: SearchIndexCollection
+    # TODO: What if records are hidden? Make this smart and have SearchIndex#visible?
     # TODO: See if there's a way to pass weight through individual records.
     def search_indices(modules: [])
       modules = SearchModule.searchable.pluck(:klass) if modules.blank?
@@ -80,7 +80,6 @@ module Plok::Search
         .where('search_indices.value LIKE ?', "%#{term.value}%")
         .group([:searchable_type, :searchable_id])
         .preload(:searchable) # ".includes" for polymorphic relations
-        .lazy
     end
 
   end
