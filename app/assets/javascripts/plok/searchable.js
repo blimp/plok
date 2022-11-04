@@ -19,7 +19,7 @@ var search = search || {
   },
 
   target: function() {
-    return $('#plok-search input');
+    return $('[data-plok-searchable] input');
   }
 };
 

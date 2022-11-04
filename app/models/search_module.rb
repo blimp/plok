@@ -1,11 +1,12 @@
 class SearchModule < ActiveRecord::Base
-  scope :weighted, -> { order('weight DESC') }
 
-  validates :name, presence: true
+  scope :searchable, -> { where('search_modules.searchable': true) }
+  scope :weighted, -> { order('search_modules.weight DESC') }
 
-  def indices
-    SearchIndex
-      .joins('INNER JOIN search_modules ON search_indices.searchable_type = search_modules.name')
-      .where('search_modules.name = ?', name)
+  validates :klass, presence: true
+
+  def search_indices
+    SearchIndex.where(searchable_type: klass)
   end
+
 end

@@ -1,8 +1,9 @@
+# TODO: Find a way to spec this properly.
 module Plok::Searchable
   extend ActiveSupport::Concern
 
   included do
-    has_many :search_indices, as: :searchable, dependent: :destroy
+    has_many :search_indices, as: :searchable
 
     # The after_save block creates or saves indices for every indicated
     # searchable field. Takes both translations and flexible content into
@@ -15,16 +16,18 @@ module Plok::Searchable
     end
 
     def trigger_indices_save!
-      self.class.searchable_fields_list.each do |key|
-        if key == :flexible_content
-          save_flexible_content_search_indices! && next
-        end
+      self.class.searchable_fields_list.each do |namespace, keys|
+        keys.each do |key|
+          if key == :flexible_content
+            save_flexible_content_search_indices!(namespace) && next
+          end
 
-        if respond_to?(:translatable?) && self.class.translatable_fields_list.include?(key)
-          save_translatable_search_index!(key) && next
-        end
+          if respond_to?(:translatable?) && self.class.translatable_fields_list.include?(key)
+            save_translatable_search_index!(namespace, key) && next
+          end
 
-        save_search_index!(key)
+          save_search_index!(namespace, key)
+        end
       end
     end
 
@@ -38,38 +41,37 @@ module Plok::Searchable
     # to help facilitate searchable management. Note that said code was
     # initially present in this class, and it was such a mess that it became
     # unpractical to maintain.
-    def save_flexible_content_search_indices!
+    def save_flexible_content_search_indices!(namespace)
       content_rows.each do |row|
         row.columns.each do |column|
           next unless column.content.is_a?(ContentText)
           key = "flexible_content:#{column.content_id}"
-          save_index!(key, value: column.content.content, locale: row.locale)
+          save_search_index!(namespace, key, value: column.content.content, locale: row.locale)
         end
       end
     end
 
-    def save_index!(key, value: nil, locale: nil)
-      value = read_attribute(key) if value.blank? && respond_to?(key)
+    def save_search_index!(namespace, key, value: nil, locale: nil)
+      value = if value.present?
+                value
+              elsif ActiveRecord::Base.connection.column_exists?(self.class.table_name, key)
+                read_attribute(key)
+              elsif respond_to?(key)
+                send(key)
+              end
+
       return if value.blank?
 
       search_indices
-        .find_or_create_by!(name: key, locale: locale)
+        .find_or_create_by!(namespace: namespace, name: key, locale: locale)
         .update_column(:value, value)
     end
 
-    # This exists so we can use #save_search_index! as the main method
-    # to override, and then be able to call #save_index! in the overridden
-    # method to accommodate further defaults.
-    def save_search_index!(key)
-      value = read_attribute(key)
-      save_index!(key, value: value)
-    end
-
-    def save_translatable_search_index!(key)
+    def save_translatable_search_index!(namespace, key)
       # TODO: locales can't be hardcoded
       %w(nl fr).each do |locale|
         value = translation(locale.to_sym).send(key)
-        save_index!(key, value: value, locale: locale)
+        save_search_index!(namespace, key, value: value, locale: locale)
       end
     end
 
@@ -79,18 +81,22 @@ module Plok::Searchable
   end
 
   module ClassMethods
-    def searchable_field(key)
-      unless searchable_fields_list.include?(key.to_sym)
-        searchable_fields_list << key.to_sym
+    def searchable_field(namespace, key)
+      return if searchable_fields_list.dig(namespace.to_sym)&.include?(key.to_sym)
+
+      if searchable_fields_list[namespace.to_sym].blank?
+        searchable_fields_list[namespace.to_sym] = []
       end
+
+      searchable_fields_list[namespace.to_sym] << key.to_sym
     end
 
-    def searchable_fields(*args)
-      args.each { |key| searchable_field(key) }
+    def plok_searchable(namespace: nil, fields: [], conditions: [])
+      fields.each { |key| searchable_field(namespace, key) }
     end
 
     def searchable_fields_list
-      @searchable_fields_list ||= []
+      @searchable_fields_list ||= {}
     end
   end
 end

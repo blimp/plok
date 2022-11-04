@@ -9,7 +9,7 @@ describe Plok::Search::ResultObjects::Base do
            value: 'foo')
   end
 
-  let(:search_context) { Plok::Search::Base.new('foo') }
+  let(:search_context) { Plok::Search::Base.new('foo', namespace: 'frontend') }
   subject { described_class.new(index, search_context: search_context) }
 
   describe '#label' do

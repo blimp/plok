@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Plok::Search::Base do
   let(:klass) { described_class.to_s.underscore.to_sym }
-  subject { described_class.new('foo') }
+  subject { described_class.new('foo', namespace: 'frontend') }
 
   before do
     module Plok::Search::ResultObjects
@@ -23,22 +23,22 @@ describe Plok::Search::Base do
     end
   end
 
-  describe '#indices' do
+  describe '#search_indices' do
     it 'default' do
-      expect(subject.indices).to eq []
+      expect(subject.search_indices.to_a).to eq []
     end
 
     it 'term is an empty string' do
-      expect(described_class.new('').indices).to eq []
+      expect(described_class.new('').search_indices.to_a).to eq []
     end
 
     # This test fails in GitHub Actions with a "sql_mode=only_full_group_by"
     # error. These are notoriously non-descript and sometimes hard to fix, so
     # skip for now.
     #it 'returns results sorted by SearchModule weight' do
-      #create(:search_module, name: 'Foo', weight: 1)
-      #create(:search_module, name: 'Bar', weight: 10)
-      #create(:search_module, name: 'Baz', weight: 5)
+      #create(:search_module, klass: 'Foo', weight: 1)
+      #create(:search_module, klass: 'Bar', weight: 10)
+      #create(:search_module, klass: 'Baz', weight: 5)
 
       #a = create(:search_index, searchable_type: 'Bar', searchable_id: 1, value: 'foo')
       #b = create(:search_index, searchable_type: 'Bar', searchable_id: 2, value: 'foo')
@@ -46,7 +46,7 @@ describe Plok::Search::Base do
       #d = create(:search_index, searchable_type: 'Foo', searchable_id: 8, value: 'foo')
       #e = create(:search_index, searchable_type: 'Baz', searchable_id: 18, value: 'foo')
 
-      #expect(subject.indices).to eq [a, b, e, c, d]
+      #expect(subject.search_indices).to eq [a, b, e, c, d]
     #end
   end
 
@@ -85,35 +85,5 @@ describe Plok::Search::Base do
         expect(subject.result_object_exists?('Plok::Search::ResultObjects::Blub')).to be false
       end
     end
-  end
-
-  describe '#namespace' do
-    before do
-      module Backend
-        class SearchController
-        end
-      end
-    end
-
-    it 'default' do
-      subject = described_class.new('foo')
-      expect(subject.namespace).to eq 'Frontend'
-    end
-
-    it 'backend' do
-      subject = described_class.new('foo', controller: Backend::SearchController.new)
-      expect(subject.namespace).to eq 'Backend'
-    end
-
-    it 'uses override when passed in through the construct' do
-      subject = described_class.new('foo', controller: Backend::SearchController.new, namespace: 'Frontend')
-      expect(subject.namespace).to eq 'Frontend'
-    end
-  end
-
-  it '#responds_to?' do
-    expect(subject).to respond_to(
-      :indices
-    )
   end
 end

@@ -1,0 +1,10 @@
+Description:
+    This generates a Plok::Search class for a given namespace, which you can
+    use to search for search_indices tagged with the same namespace.
+
+Example:
+    bin/rails g plok/search/class --namespace backend
+
+    This will create:
+        lib/plok/search/backend.rb
+        spec/lib/plok/search/backend_spec.rb
