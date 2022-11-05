@@ -52,12 +52,23 @@ module Plok
       { "#{partial_target}": index.searchable, index: index }
     end
 
+    def namespace
+      search_context.namespace.to_s.underscore
+    end
+
     def partial
       "#{partial_path}/#{partial_target}"
     end
 
     def partial_path
-      "#{search_context.namespace.to_s.underscore}/search"
+      # TODO: This is a fallback for older Plok versions whose result object
+      # partials still reside in app/views/backens/search/*. Best to remove
+      # this at a later stage, but for now they can be backwards compatible.
+      if File.exists?("app/views/#{namespace}/search/_#{partial_target}.html.erb")
+        return "#{namespace}/search/"
+      end
+
+      "plok/search/result_objects/#{namespace}"
     end
 
     def partial_target

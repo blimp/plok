@@ -1,0 +1,4 @@
+<% [name] = [name].decorate if [name].respond_to?(:decorate) %>
+
+<strong><%= t 'b.[name]' %></strong><br>
+<small class="text-muted"><%= [name].id %></small>
