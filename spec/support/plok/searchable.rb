@@ -9,10 +9,18 @@ shared_examples_for :searchable do
         # Because this is a spec/support included through it_behaves_like,
         # we have to mock the entry points of the data used in
         # Plok::Searchable.
-        allow(described_class).to receive(:searchable_fields_list) { [:foo] }
+        allow(described_class).to receive(:searchable_fields_list) do
+          {
+            backend: [
+              { name: :foo, conditions: [] }
+            ]
+          }
+        end
+
         if described_class.respond_to?(:translatable_fields_list)
           allow(described_class).to receive(:translatable_fields_list) { [] }
         end
+
         described_class.define_method(:foo) { 'bar' }
       end
 
@@ -27,7 +35,13 @@ shared_examples_for :searchable do
 
     if described_class.respond_to?(:translatable_fields)
       before do
-        allow(described_class).to receive(:searchable_fields_list) { [:foo] }
+        allow(described_class).to receive(:searchable_fields_list) do
+          {
+            backend: [
+              { name: :foo, conditions: [] }
+            ]
+          }
+        end
       end
 
       context 'translatable model' do
@@ -62,7 +76,14 @@ shared_examples_for :searchable do
           # Because this is a spec/support included through it_behaves_like,
           # we have to mock the entry points of the data used in
           # Plok::Searchable.
-          allow(described_class).to receive(:searchable_fields_list) { [:foo] }
+          allow(described_class).to receive(:searchable_fields_list) do
+            {
+              backend: [
+                { name: :foo, conditions: [] }
+              ]
+            }
+          end
+
           allow_any_subject_of(described_class).to receive(:foo) { 'bar' }
           allow_any_subject_of(Concerns::Storable::Collection).to receive(:foo) { 'bar' }
 
@@ -90,7 +111,7 @@ shared_examples_for :searchable do
 
   it '.respond_to?' do
     expect(described_class).to respond_to(
-      :searchable_field, :searchable_fields, :searchable_fields_list
+      :plok_searchable, :searchable_field, :searchable_fields_list
     )
   end
 
