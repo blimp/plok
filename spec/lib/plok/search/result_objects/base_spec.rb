@@ -46,11 +46,11 @@ describe Plok::Search::ResultObjects::Base do
   end
 
   it '#partial' do
-    expect(subject.partial).to eq 'frontend/search/plok/fake_ar_model'
+    expect(subject.partial).to eq 'plok/search/result_objects/frontend/plok/fake_ar_model'
   end
 
   it '#partial_path' do
-    expect(subject.partial_path).to eq 'frontend/search'
+    expect(subject.partial_path).to eq 'plok/search/result_objects/frontend'
   end
 
   it '#partial_target' do

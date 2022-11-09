@@ -16,17 +16,17 @@ module Plok::Searchable
     end
 
     def trigger_indices_save!
-      self.class.searchable_fields_list.each do |namespace, keys|
-        keys.each do |key|
-          if key == :flexible_content
+      self.class.searchable_fields_list.each do |namespace, fields|
+        fields.each do |field|
+          if field[:name] == :flexible_content
             save_flexible_content_search_indices!(namespace) && next
           end
 
-          if respond_to?(:translatable?) && self.class.translatable_fields_list.include?(key)
-            save_translatable_search_index!(namespace, key) && next
+          if respond_to?(:translatable?) && self.class.translatable_fields_list.include?(field[:name])
+            save_translatable_search_index!(namespace, field[:name]) && next
           end
 
-          save_search_index!(namespace, key)
+          save_search_index!(namespace, field[:name], conditions: field[:conditions])
         end
       end
     end
@@ -51,7 +51,11 @@ module Plok::Searchable
       end
     end
 
-    def save_search_index!(namespace, key, value: nil, locale: nil)
+    def save_search_index!(namespace, key, value: nil, locale: nil, conditions: [])
+      if conditions.any?
+        return unless conditions.map { |c| send(c) }.all?
+      end
+
       value = if value.present?
                 value
               elsif ActiveRecord::Base.connection.column_exists?(self.class.table_name, key)
@@ -81,18 +85,23 @@ module Plok::Searchable
   end
 
   module ClassMethods
-    def searchable_field(namespace, key)
-      return if searchable_fields_list.dig(namespace.to_sym)&.include?(key.to_sym)
+    def searchable_field(namespace, key, conditions)
+      return if !!searchable_fields_list.dig(namespace.to_sym)&.detect do |field|
+        field[:name] == key.to_sym
+      end
 
       if searchable_fields_list[namespace.to_sym].blank?
         searchable_fields_list[namespace.to_sym] = []
       end
 
-      searchable_fields_list[namespace.to_sym] << key.to_sym
+      searchable_fields_list[namespace.to_sym] << {
+        name: key.to_sym,
+        conditions: conditions
+      }
     end
 
     def plok_searchable(namespace: nil, fields: [], conditions: [])
-      fields.each { |key| searchable_field(namespace, key) }
+      fields.each { |key| searchable_field(namespace, key, conditions) }
     end
 
     def searchable_fields_list
