@@ -1,3 +1,8 @@
+1.1.2 - 2022-11-09
+--
+* Added basic support for conditions on `.plok_searchable` calls.
+
+
 1.1.1 - 2022-11-05
 --
 * Added a generator to scaffold namespaced search result objects.

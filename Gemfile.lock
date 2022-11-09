@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    plok (1.1.1)
+    plok (1.1.2)
       mysql2 (~> 0.5)
       rails (~> 6.0)
 
