@@ -31,13 +31,13 @@ namespace 'plok:search' do
         Plok::Engine.class_exists?(m.constantize) # Only existing classes
     end
 
-    # TODO: Move this in the loop, and isolate per module.
-    # Faster than SearchIndex.where(searchable_type: modules).destroy_all
-    ActiveRecord::Base
-      .connection
-      .execute("DELETE FROM search_indices WHERE searchable_type in ('#{modules.join("','")}')")
-
     SearchModule.where(klass: modules).each do |m|
+      puts "Removing existing #{m.klass} indices..."
+      # Faster than SearchIndex.where(searchable_type: modules).destroy_all
+      ActiveRecord::Base
+        .connection
+        .execute("DELETE FROM search_indices WHERE searchable_type = '#{m.klass}'")
+
       puts "Rebuilding #{m.klass} indices..."
       m.klass.constantize.all.each(&:trigger_indices_save!)
     end
