@@ -2,6 +2,10 @@
 module Plok::Searchable
   extend ActiveSupport::Concern
 
+  def translatable_locales
+    %w[nl fr]
+  end
+
   included do
     has_many :search_indices, as: :searchable, dependent: :destroy
 
@@ -73,7 +77,7 @@ module Plok::Searchable
 
     def save_translatable_search_index!(namespace, key)
       # TODO: locales can't be hardcoded
-      %w(nl fr).each do |locale|
+      translatable_locales.each do |locale|
         value = translation(locale.to_sym).send(key)
         save_search_index!(namespace, key, value: value, locale: locale)
       end
