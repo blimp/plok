@@ -3,6 +3,16 @@ require 'rails_helper'
 shared_examples_for :searchable do
   let(:klass) { described_class.to_s.underscore.to_sym }
 
+  describe 'relations' do
+    context 'when destroying a searchable model' do
+      it 'deletes all linked SearchIndex records' do
+        subject = create(klass)
+        index = create(:search_index, searchable: subject)
+        expect { subject.destroy }.to change(SearchIndex, :count)
+      end
+    end
+  end
+
   describe 'after_save' do
     context 'non-translatable model' do
       before do

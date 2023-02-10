@@ -3,7 +3,7 @@ module Plok::Searchable
   extend ActiveSupport::Concern
 
   included do
-    has_many :search_indices, as: :searchable
+    has_many :search_indices, as: :searchable, dependent: :destroy
 
     # The after_save block creates or saves indices for every indicated
     # searchable field. Takes both translations and flexible content into
