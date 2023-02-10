@@ -1,3 +1,10 @@
+1.1.5 - 2023-02-10
+--
+* Slightly refactored the translatable locales so they can be overridden in
+projects. This was made to prevent useless search indices in projects, due to a
+current lack of Plok configurable locales.
+
+
 1.1.4 - 2023-02-10
 --
 * Moved plok:search rake task namespace to its own file in
