@@ -49,7 +49,7 @@ describe Log do
       b = create(klass, loggable_id: 2, created_at: 1.day.ago)
       c = create(klass, loggable_id: 3, created_at: 3.days.ago)
 
-      expect(described_class.all).to eq [b, a, c]
+      expect(described_class.all.to_a).to eq [b, a, c]
     end
 
     it '.status' do

@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mysql2', '~> 0.5'
   spec.add_development_dependency 'rspec-rails', '~> 5.0'
   spec.add_development_dependency 'factory_bot_rails', '~> 6.0'
+  spec.add_development_dependency 'database_cleaner-active_record', '~> 2.0'
 end
