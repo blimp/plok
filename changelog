@@ -1,3 +1,8 @@
+1.1.6 - 2023-05-09
+--
+* Make the search play nice with sql_mode=only_full_group_by.
+
+
 1.1.5 - 2023-02-10
 --
 * Slightly refactored the translatable locales so they can be overridden in
