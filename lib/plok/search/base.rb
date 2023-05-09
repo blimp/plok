@@ -73,6 +73,7 @@ module Plok::Search
       # a searchable result. Otherwise matches from both an indexed
       # Page#title and Page#description would be in the result set.
       @search_indices ||= SearchIndex
+        .select('searchable_type, searchable_id, namespace')
         .joins('INNER JOIN search_modules ON search_indices.searchable_type = search_modules.klass')
         .where('search_modules.searchable': true)
         .where('search_modules.klass in (?)', modules)
