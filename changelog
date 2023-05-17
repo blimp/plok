@@ -1,3 +1,9 @@
+2.0.0 - 2023-05-17
+--
+* Bump the dependency to Rails 7, to have a path to gradual upgrades within a
+Rails 7 context
+
+
 1.1.6 - 2023-05-09
 --
 * Make the search play nice with sql_mode=only_full_group_by.
