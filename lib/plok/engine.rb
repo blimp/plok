@@ -20,7 +20,7 @@ module Plok
     end
 
     # Autoload classes from the lib dir
-    config.autoload_paths << File.expand_path('../..', __FILE__)
+    config.autoload_once_paths << File.expand_path('../..', __FILE__)
 
     def self.class_exists?(class_name)
       klass = Module.const_get(class_name.to_s)
