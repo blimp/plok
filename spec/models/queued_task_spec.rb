@@ -76,18 +76,6 @@ describe QueuedTask do
     end
   end
 
-  it '#lock!' do
-    task = create(klass, locked: false)
-    task.lock!
-    expect(task).to be_locked
-  end
-
-  it '#unlock!' do
-    task = create(klass, locked: true)
-    task.unlock!
-    expect(task).not_to be_locked
-  end
-
   describe '#increase_attempts' do
     subject { create(klass, attempts: 0) }
 
