@@ -90,11 +90,11 @@ class Plok::SidebarGenerator < Rails::Generators::Base
   end
 
   def application_layout_file
-    if File.exists?("app/views/layouts/backend/#{options.css_framework}/application.html.erb")
+    if File.exist?("app/views/layouts/backend/#{options.css_framework}/application.html.erb")
       return "app/views/layouts/backend/#{options.css_framework}/application.html.erb"
     end
 
-    if File.exists?('app/views/layouts/backend/application.html.erb')
+    if File.exist?('app/views/layouts/backend/application.html.erb')
       return 'app/views/layouts/backend/application.html.erb'
     end
   end
@@ -103,11 +103,11 @@ class Plok::SidebarGenerator < Rails::Generators::Base
     namespace = 'stylesheets'
     namespace = 'javascripts' if type.to_s == 'js'
 
-    if File.exists?("app/assets/#{namespace}/backend/#{options.css_framework}/application.#{type}")
+    if File.exist?("app/assets/#{namespace}/backend/#{options.css_framework}/application.#{type}")
       return "app/assets/#{namespace}/backend/#{options.css_framework}/application.#{type}"
     end
 
-    if File.exists?("app/assets/#{namespace}/backend/application.#{type}")
+    if File.exist?("app/assets/#{namespace}/backend/application.#{type}")
       return "app/assets/#{namespace}/backend/application.#{type}"
     end
   end

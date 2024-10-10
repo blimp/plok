@@ -64,7 +64,7 @@ module Plok
       # TODO: This is a fallback for older Plok versions whose result object
       # partials still reside in app/views/backens/search/*. Best to remove
       # this at a later stage, but for now they can be backwards compatible.
-      if File.exists?("app/views/#{namespace}/search/_#{partial_target}.html.erb")
+      if File.exist?("app/views/#{namespace}/search/_#{partial_target}.html.erb")
         return "#{namespace}/search"
       end
 
