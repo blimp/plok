@@ -1,7 +1,7 @@
 class Log < ActiveRecord::Base
   belongs_to :loggable, polymorphic: true
 
-  serialize :data, Hash
+  serialize :data, type: Hash
 
   # TODO: A file column is currently used in Raamwinkel to link either PDFs or
   # images to a log message. We'd prefer not use Uploader classes in Plok, so

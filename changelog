@@ -1,3 +1,8 @@
+2.0.3 - 2024-11-18
+--
+* Use the correct serialize syntax with keyword argument for the class type.
+
+
 2.0.2 - 2024-10-10
 --
 * Stop using File.exists? and use File.exist? instead.

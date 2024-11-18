@@ -1,7 +1,7 @@
 class QueuedTask < ActiveRecord::Base
   include Plok::Loggable
 
-  serialize :data, Hash
+  serialize :data, type: Hash
 
   validates :klass, presence: true
 
