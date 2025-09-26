@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
     "Rakefile"
   ]
 
-  spec.add_dependency 'rails', '~> 7.0'
+  spec.add_dependency 'rails', '>= 7.0'
   spec.add_dependency 'mysql2', '~> 0.5'
   spec.add_development_dependency 'rspec-rails', '~> 6.0.2'
   spec.add_development_dependency 'factory_bot_rails', '~> 6.2'
