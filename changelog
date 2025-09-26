@@ -1,3 +1,8 @@
+2.0.4 - 2025-09-26
+--
+* Make the Rails dependency less restrictive so we can upgrade freely to Rails 8.
+
+
 2.0.3 - 2024-11-18
 --
 * Use the correct serialize syntax with keyword argument for the class type.
