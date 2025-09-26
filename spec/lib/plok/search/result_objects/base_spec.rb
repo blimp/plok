@@ -16,7 +16,7 @@ describe Plok::Search::ResultObjects::Base do
     let(:fake_ar_model) { Plok::FakeArModel.new(id: 1, foo: 'foobar') }
 
     it 'default' do
-      index = create(:search_index, searchable: fake_ar_model, name: 'foo', value: 'foobar')
+      index = create(:search_index, searchable: fake_ar_model, name: 'foo', value: 'foobar', searchable_type: 'Plok::FakeArModel')
       subject = described_class.new(index, search_context: search_context)
 
       expect(subject.label).to eq 'foobar'
@@ -31,7 +31,8 @@ describe Plok::Search::ResultObjects::Base do
       ])
 
       index = create(:search_index,
-                     searchable: fake_ar_model,
+                     searchable_type: 'Plok::FakeArModel',
+                     searchable_id: 1,
                      name: "flexible_content:1",
                      value: 'foobar')
       subject = described_class.new(index, search_context: search_context)
@@ -61,7 +62,7 @@ describe Plok::Search::ResultObjects::Base do
 
   describe '#hidden?' do
     it 'false' do
-      index = create(:search_index, searchable: Plok::FakeArModel.new(visible: true))
+      index = create(:search_index, searchable: Plok::FakeArModel.new(visible: true), searchable_type: 'Plok::FakeArModel')
       subject = described_class.new(index, search_context: search_context)
       expect(subject.hidden?).to be false
     end
@@ -69,7 +70,7 @@ describe Plok::Search::ResultObjects::Base do
 
   describe '#unpublished?' do
     it 'false' do
-      index = create(:search_index, searchable: Plok::FakeArModel.new(published: true))
+      index = create(:search_index, searchable: Plok::FakeArModel.new(published: true), searchable_type: 'Plok::FakeArModel')
       subject = described_class.new(index, search_context: search_context)
       expect(subject.unpublished?).to be false
     end

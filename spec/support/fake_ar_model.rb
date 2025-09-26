@@ -50,6 +50,14 @@ class Plok::FakeArModel
   def self.current_scope
   end
 
+  def self.has_query_constraints?
+    false
+  end
+
+  def self.composite_primary_key?
+    false
+  end
+
   def self.find(id)
     @collection.to_a.detect { |o| o.id == id }
   end
