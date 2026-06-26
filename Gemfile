@@ -14,3 +14,6 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 gem 'sprockets-rails'
+
+# Removed from Ruby's default gems in 3.5; required by Rails' ActiveModel.
+gem 'observer'

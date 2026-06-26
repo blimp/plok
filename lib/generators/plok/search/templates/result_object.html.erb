@@ -1,4 +1,4 @@
 <% [name] = [name].decorate if [name].respond_to?(:decorate) %>
 
-<strong><%= t 'b.[name]' %></strong><br>
+<span class="badge bg-secondary me-1"><%= t 'b.[name]' %></span><br>
 <small class="text-muted"><%= [name].id %></small>

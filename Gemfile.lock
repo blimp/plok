@@ -145,6 +145,7 @@ GEM
     nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    observer (0.1.2)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -238,6 +239,7 @@ PLATFORMS
 DEPENDENCIES
   database_cleaner-active_record (~> 2.0)
   factory_bot_rails (~> 6.2)
+  observer
   plok!
   rspec-rails (~> 6.0.2)
   sprockets-rails
